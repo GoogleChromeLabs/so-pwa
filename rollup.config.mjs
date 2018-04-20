@@ -14,40 +14,49 @@
  * limitations under the License.
  **/
 
+import babel from 'rollup-plugin-babel';
+import string from 'rollup-plugin-string';
+
 export default [{
-  input: 'src/templates.mjs',
+  input: 'src/server.mjs',
+  external: [
+    'firebase-functions',
+    'fs-extra',
+    'node-fetch',
+  ],
+  plugins: [
+    string({
+      include: 'www/partials/**/*.html'
+    }),
+    babel({
+      presets: [['env', {
+        targets: {
+          // The version of node used in Firebase Cloud Functions
+          node: '6.11.5',
+        },
+        modules: false,
+      }]]
+    }),
+  ],
   output: {
-    file: 'build/templates.js',
+    file: 'functions/server.js',
     format: 'cjs',
   },
 }, {
-  input: 'src/urls.mjs',
+  input: 'src/service-worker.mjs',
+  plugins: [
+    babel({
+      presets: [['env', {
+        targets: {
+          // The version of Chroumium used by Samsung Internet 5.x.
+          browsers: ['chrome >= 51'],
+        },
+        modules: false,
+      }]]
+    }),
+  ],
   output: {
-    file: 'build/urls.js',
-    format: 'cjs',
-  },
-}, {
-  input: 'src/router.mjs',
-  output: {
-    file: 'build/router.js',
-    format: 'cjs',
-  },
-}, {
-  input: 'src/routes.mjs',
-  output: {
-    file: 'build/routes.js',
-    format: 'cjs',
-  },
-}, {
-  input: 'src/partials.mjs',
-  output: {
-    file: 'build/partials.js',
-    format: 'cjs',
-  },
-}, {
-  input: 'src/source-sw.mjs',
-  output: {
-    file: 'build/source-sw.js',
+    file: 'build/service-worker.js',
     format: 'iife',
   },
 }];

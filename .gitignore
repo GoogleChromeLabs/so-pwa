@@ -1,8 +1,9 @@
 # Directories
 build/
 node_modules/
-/www/workbox-v*
+www/workbox-v*
 
 # Files
-/firebase-debug.log
-/www/sw.js
+*.log
+functions/server.js
+www/service-worker.js

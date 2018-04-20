@@ -19,6 +19,6 @@ const path = require('path');
 module.exports = {
   globDirectory: 'www',
   globIgnores: ['**/workbox-v*/**'],
-  swSrc: 'build/source-sw.js',
-  swDest: path.join('www', 'sw.js'),
+  swSrc: 'build/service-worker.js',
+  swDest: path.join('www', 'service-worker.js'),
 };

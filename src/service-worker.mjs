@@ -14,11 +14,11 @@
  * limitations under the License.
  **/
 
-import * as templates from './templates.mjs';
-import * as urls from './urls.mjs';
-import router from './router.mjs';
-import routes from './routes.mjs';
-import partials from './partials.mjs';
+import * as templates from './lib/templates.mjs';
+import * as urls from './lib/urls.mjs';
+import partials from './lib/partials.mjs';
+import router from './lib/router.mjs';
+import routes from './lib/routes.mjs';
 
 importScripts('workbox-v3.1.0/workbox-sw.js');
 workbox.setConfig({modulePathPrefix: 'workbox-v3.1.0/'});
