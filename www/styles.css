@@ -18,12 +18,13 @@ header {
 }
 
 header > a {
+  font-weight: bold;
   text-decoration: none;
 }
 
 header, footer {
   align-items: center;
-  background-color: aliceblue;
+  background-color: #eceff1;
   display: flex;
   justify-content: space-around;
   margin: 0;
@@ -51,7 +52,7 @@ h1 {
 }
 
 a {
-  color: black;
+  color: #000000;
 }
 
 hr {
@@ -59,8 +60,9 @@ hr {
 }
 
 pre {
-  overflow: auto;
+  background-color: #eceff1;
   max-height: 600px;
+  overflow: auto;
   padding: 16px;
 }
 

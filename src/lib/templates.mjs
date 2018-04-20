@@ -34,7 +34,8 @@ export function question(item) {
   <img class="profile"
        src="${item.owner.profile_image}"
        title="Profile image"
-       ${item.owner.profile_image.startsWith('https://www.gravatar.com/') ?
+       ${item.owner.profile_image &&
+         item.owner.profile_image.startsWith('https://www.gravatar.com/') ?
          'crossorigin="anonymous"' : ''}>
   <a href="${item.owner.link}">
     ${item.owner.display_name}
@@ -53,7 +54,8 @@ export function question(item) {
   <img class="profile"
        src="${answer.owner.profile_image}"
        title="Profile image"
-       ${answer.owner.profile_image.startsWith('https://www.gravatar.com/') ?
+       ${answer.owner.profile_image &&
+         answer.owner.profile_image.startsWith('https://www.gravatar.com/') ?
          'crossorigin="anonymous"' : ''}>
   <a href="${answer.owner.link}">
     ${answer.owner.display_name}

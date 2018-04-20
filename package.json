@@ -9,7 +9,7 @@
     "deploy": "npm run build && firebase deploy --only hosting,functions",
     "lint": "eslint --ext='.js,.mjs' .",
     "rollup": "rollup --config rollup.config.mjs",
-    "serve": "firebase serve --only hosting,functions",
+    "serve": "npm run build && firebase serve --only hosting,functions",
     "workbox": "workbox injectManifest"
   },
   "private": true,
