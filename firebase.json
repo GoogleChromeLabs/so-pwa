@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "public": "www",
+    "headers": [{
+      "source":"/sw.js",
+      "headers": [{
+        "key": "Cache-Control",
+        "value": "no-cache"
+      }]
+    }],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [{
+      "source": "**",
+      "function": "handleRequest"
+    }]
+  }
+}

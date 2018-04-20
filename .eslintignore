@@ -1,0 +1,4 @@
+**/node_modules/*
+**/workbox-v3*/*
+www/sw.js
+build/**/*
