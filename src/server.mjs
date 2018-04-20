@@ -14,11 +14,11 @@
  * limitations under the License.
  **/
 
-// CommonJS imports from node_modules.
+// CommonJS imports from node_modules or core.
 import axios from 'axios';
 import functions from 'firebase-functions';
-import parse from 'url-parse';
 import https from 'https';
+import lruCache from 'lru-cache';
 
 // Local ES2105 imports.
 import * as templates from './lib/templates.mjs';
@@ -42,18 +42,39 @@ const httpsAgent = new https.Agent({
   keepAlive: true,
 });
 
+// Once a browser client has an active service worker, it will no longer need
+// to obtain API responses from this server process. But, to cut down on the
+// number of API requests that fresh browser clients might trigger, let's put
+// in some light-weight caching that's local to this process.
+const apiCache = lruCache({
+  max: 100,
+  maxAge: 1000 * 60 * 5, // 5 minutes.
+});
+
+async function requestData(url) {
+  const cachedResponse = apiCache.get(url);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+
+  const networkResponse = await apiClient.request({
+    httpsAgent,
+    url,
+  });
+
+  const data = networkResponse.data;
+  apiCache.set(url, data);
+  return data;
+}
+
 const HANDLERS = {};
 HANDLERS[routes.INDEX] = async (req, res) => {
   res.write(headPartial);
   res.write(navbarPartial);
 
-  const tag = req.param('tag') || 'service-worker';
-  const listResponse = await apiClient.request({
-    httpsAgent,
-    url: urls.listQuestionsForTag(tag),
-  });
-  const items = listResponse.data.items;
-  res.write(templates.list(tag, items));
+  const tag = req.query.tag || 'service-worker';
+  const data = await requestData(urls.listQuestionsForTag(tag));
+  res.write(templates.list(tag, data.items));
 
   res.write(footPartial);
   res.end();
@@ -64,12 +85,8 @@ HANDLERS[routes.QUESTIONS] = async (req, res) => {
   res.write(navbarPartial);
 
   const questionId = req.url.split('/').pop();
-  const questionResponse = await apiClient.request({
-    httpsAgent,
-    url: urls.getQuestion(questionId),
-  });
-  const item = questionResponse.data.items[0];
-  res.write(templates.question(item));
+  const data = await requestData(urls.getQuestion(questionId));
+  res.write(templates.question(data.items[0]));
 
   res.write(footPartial);
   res.end();
@@ -84,8 +101,7 @@ HANDLERS[routes.ABOUT] = async (req, res) => {
 };
 
 export const handleRequest = functions.https.onRequest(async (req, res) => {
-  const pathname = parse(req.url).pathname;
-  const route = router(pathname);
+  const route = router(req.path);
   const handler = HANDLERS[route];
   if (handler) {
     await handler(req, res);

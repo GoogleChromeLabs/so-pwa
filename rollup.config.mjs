@@ -23,7 +23,7 @@ export default [{
     'axios',
     'firebase-functions',
     'https',
-    'url-parse',
+    'lru-cache',
   ],
   plugins: [
     string({
