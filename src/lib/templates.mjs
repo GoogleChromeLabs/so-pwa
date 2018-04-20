@@ -33,7 +33,14 @@ export function list(tag, items) {
   </a>
 </div>
 `;
-  }).join('');
+  }).join('') +
+  `<script>
+    function unescape(s) {
+      return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
+        .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+    }
+    document.title = 'Top "' + unescape('${escape(tag)}') + '" Questions';
+  </script>`;
 }
 
 export function question(item) {
