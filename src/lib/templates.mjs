@@ -23,7 +23,7 @@ export function list(tag, items) {
   return `<h3>Top "${tag}" Questions</h3>
 <form method="GET">
   <label for="tag">Switch to tag:</label>
-  <input type="text" name="tag" placeholder="service-worker"></input>
+  <input type="text" id="tag" name="tag" placeholder="service-worker"></input>
 </form>
 ` + items.map((item) => {
     return `

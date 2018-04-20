@@ -70,6 +70,7 @@ pre {
 
 code {
   font-family: "Source Code Pro", "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", monospace;
+  word-wrap: break-word;
 }
 
 img {
