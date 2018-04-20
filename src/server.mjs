@@ -17,6 +17,7 @@
 // CommonJS imports from node_modules.
 import fetch from 'node-fetch';
 import functions from 'firebase-functions';
+import parse from 'url-parse';
 
 // Local ES2105 imports.
 import * as templates from './lib/templates.mjs';
@@ -68,7 +69,8 @@ HANDLERS[routes.ABOUT] = async (req, res) => {
 };
 
 export const handleRequest = functions.https.onRequest(async (req, res) => {
-  const route = router(req.url);
+  const pathname = parse(req.url).pathname;
+  const route = router(pathname);
   const handler = HANDLERS[route];
   if (handler) {
     await handler(req, res);

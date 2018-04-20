@@ -21,8 +21,8 @@ export default [{
   input: 'src/server.mjs',
   external: [
     'firebase-functions',
-    'fs-extra',
     'node-fetch',
+    'url-parse',
   ],
   plugins: [
     string({

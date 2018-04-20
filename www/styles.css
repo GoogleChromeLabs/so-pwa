@@ -79,3 +79,7 @@ img.profile {
   vertical-align: middle;
   width: 32px;
 }
+
+form {
+  margin: 16px;
+}
