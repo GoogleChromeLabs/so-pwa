@@ -16,6 +16,7 @@
 
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
+import defaultTag from './lib/default-tag.mjs';
 import partials from './lib/partials.mjs';
 import router from './lib/router.mjs';
 import routes from './lib/routes.mjs';
@@ -40,7 +41,7 @@ const streamingResponseStrategy = workbox.streams.strategy([
     try {
       const route = router(url.pathname);
       if (route === routes.INDEX) {
-        const tag = url.searchParams.get('tag') || 'service-worker';
+        const tag = url.searchParams.get('tag') || defaultTag;
         const listResponse = await apiStrategy.makeRequest({
           event,
           request: urls.listQuestionsForTag(tag),

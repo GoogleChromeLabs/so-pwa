@@ -23,6 +23,7 @@ import lruCache from 'lru-cache';
 // Local ES2105 imports.
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
+import defaultTag from './lib/default-tag.mjs';
 import router from './lib/router.mjs';
 import routes from './lib/routes.mjs';
 
@@ -72,7 +73,7 @@ HANDLERS[routes.INDEX] = async (req, res) => {
   res.write(headPartial);
   res.write(navbarPartial);
 
-  const tag = req.query.tag || 'service-worker';
+  const tag = req.query.tag || defaultTag;
   const data = await requestData(urls.listQuestionsForTag(tag));
   res.write(templates.list(tag, data.items));
 
