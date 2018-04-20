@@ -20,8 +20,9 @@ import string from 'rollup-plugin-string';
 export default [{
   input: 'src/server.mjs',
   external: [
+    'axios',
     'firebase-functions',
-    'node-fetch',
+    'https',
     'url-parse',
   ],
   plugins: [

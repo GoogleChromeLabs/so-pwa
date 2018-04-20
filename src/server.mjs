@@ -15,9 +15,10 @@
  **/
 
 // CommonJS imports from node_modules.
-import fetch from 'node-fetch';
+import axios from 'axios';
 import functions from 'firebase-functions';
 import parse from 'url-parse';
+import https from 'https';
 
 // Local ES2105 imports.
 import * as templates from './lib/templates.mjs';
@@ -31,15 +32,27 @@ import footPartial from '../www/partials/foot.html';
 import headPartial from '../www/partials/head.html';
 import navbarPartial from '../www/partials/navbar.html';
 
+// See https://cloud.google.com/functions/docs/bestpractices/networking#http_requests_with_an_axios_package
+const apiClient = axios.create({
+  baseURL: '',
+  timeout: 10000,
+});
+
+const httpsAgent = new https.Agent({
+  keepAlive: true,
+});
+
 const HANDLERS = {};
 HANDLERS[routes.INDEX] = async (req, res) => {
   res.write(headPartial);
   res.write(navbarPartial);
 
   const tag = req.param('tag') || 'service-worker';
-  const listResponse = await fetch(urls.listQuestionsForTag(tag));
-  const json = await listResponse.json();
-  const items = json.items;
+  const listResponse = await apiClient.request({
+    httpsAgent,
+    url: urls.listQuestionsForTag(tag),
+  });
+  const items = listResponse.data.items;
   res.write(templates.list(tag, items));
 
   res.write(footPartial);
@@ -51,9 +64,11 @@ HANDLERS[routes.QUESTIONS] = async (req, res) => {
   res.write(navbarPartial);
 
   const questionId = req.url.split('/').pop();
-  const questionResponse = await fetch(urls.getQuestion(questionId));
-  const json = await questionResponse.json();
-  const item = json.items[0];
+  const questionResponse = await apiClient.request({
+    httpsAgent,
+    url: urls.getQuestion(questionId),
+  });
+  const item = questionResponse.data.items[0];
   res.write(templates.question(item));
 
   res.write(footPartial);
