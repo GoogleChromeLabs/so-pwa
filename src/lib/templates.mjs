@@ -14,6 +14,11 @@
  * limitations under the License.
  **/
 
+function escape(s) {
+  return s.replace(/"/g, `&quot;`).replace(/'/g, `&#39;`)
+    .replace(/</g, `&lt;`).replace(/>/g, `&gt;`);
+}
+
 export function list(tag, items) {
   return `<h3>Top "${tag}" Questions</h3>` + items.map((item) => {
     return `
@@ -65,9 +70,12 @@ export function question(item) {
 `;
   }) : [];
 
-  // TODO: Escaping.
   const metadataScript = `<script>
-    document.title = ${JSON.stringify(item.title)};
+    function unescape(s) {
+      return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
+        .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+    }
+    document.title = unescape('${escape(item.title)}');
   </script>`;
 
   return [question, ...answers].join('<hr>') + metadataScript;
