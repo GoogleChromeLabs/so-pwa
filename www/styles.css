@@ -3,6 +3,7 @@
 }
 
 body {
+  background-color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 0;
   margin: 0;
@@ -17,14 +18,14 @@ header {
   width: 100vw;
 }
 
-header > a {
+.card,header > a {
   font-weight: bold;
   text-decoration: none;
 }
 
 header, footer {
   align-items: center;
-  background-color: #eceff1;
+  background-color: #babdbe;
   display: flex;
   justify-content: space-around;
   margin: 0;
@@ -84,5 +85,23 @@ img.profile {
 }
 
 form {
-  margin: 16px;
+  margin: 16px 0 16px 0;
+}
+
+#questions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #eceff1;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  display: inline-block;
+  flex-basis: 300px;
+  flex-grow: 1;
+  height: 150px;
+  margin: 8px;
+  overflow-y: hidden;
+  padding: 16px;
 }

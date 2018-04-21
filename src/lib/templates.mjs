@@ -27,25 +27,26 @@ export function list(tag, items) {
   <label for="tag">Switch to tag:</label>
   <input type="text" id="tag" name="tag" placeholder="${defaultTag}"></input>
 </form>
+<div id="questions">
 ` + items.map((item) => {
     return `
-<div>
-  <a href="/questions/${item.question_id}">
-    ${item.title}
-  </a>
-</div>
+<a class="card" href="/questions/${item.question_id}">
+  ${item.title}
+</a>
 `;
   }).join('') +
-  `<script>
-    function unescape(s) {
-      return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
-        .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
-    }
-    document.title = 'Top "' + unescape('${escape(tag)}') + '" Questions';
-  </script>`;
+  `</div>
+<script>
+  function unescape(s) {
+    return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
+      .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+  }
+  document.title = 'Top "' + unescape('${escape(tag)}') + '" Questions';
+</script>`;
 }
 
 export function question(item) {
+  const questionDate = new Date(item.creation_date * 1000).toLocaleString();
   const question = `
 <h3>${item.title}</h3>
 <div>${item.body}</div>
@@ -56,31 +57,26 @@ export function question(item) {
        ${item.owner.profile_image &&
          item.owner.profile_image.startsWith('https://www.gravatar.com/') ?
          'crossorigin="anonymous"' : ''}>
-  <a href="${item.owner.link}">
-    ${item.owner.display_name}
-  </a>
-  asked this on
-  <a href="${item.link}">
-    ${new Date(item.creation_date * 1000).toLocaleString()}
-  </a>.
+  <a href="${item.owner.link}">${item.owner.display_name}</a>
+  asked this at
+  <a href="${item.link}">${questionDate}</a>.
 </div>
 `;
 
   const answers = item.answers ? item.answers.map((answer) => {
     return `
-<div>${answer.body}</div>
 <div>
   <img class="profile"
        src="${answer.owner.profile_image}"
        title="Profile image"
        ${answer.owner.profile_image &&
-         answer.owner.profile_image.startsWith('https://www.gravatar.com/') ?
-         'crossorigin="anonymous"' : ''}>
-  <a href="${answer.owner.link}">
-    ${answer.owner.display_name}
-  </a>
-  answered this.
+        answer.owner.profile_image.startsWith('https://www.gravatar.com/') ?
+        'crossorigin="anonymous"' : ''}>
+  <a href="${answer.owner.link}">${answer.owner.display_name}</a>
+  answered:
 </div>
+<div>${answer.body}</div>
+
 `;
   }) : [];
 
