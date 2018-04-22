@@ -4,8 +4,7 @@
   "description": "A PWA for Stack Overflow content.",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && npm run rollup && npm run workbox",
-    "clean": "rimraf build",
+    "build": "npm run rollup && npm run workbox",
     "deploy": "npm run build && firebase deploy --only hosting,functions",
     "lint": "eslint --ext='.js,.mjs' .",
     "rollup": "rollup --config rollup.config.mjs",
@@ -30,7 +29,6 @@
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-header": "^1.2.0",
     "firebase-tools": "^3.18.3",
-    "rimraf": "^2.6.2",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^9.1.0",

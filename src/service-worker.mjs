@@ -14,9 +14,9 @@
  * limitations under the License.
  **/
 
+import {API_CACHE_NAME, DEFAULT_TAG} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
-import defaultTag from './lib/default-tag.mjs';
 import partials from './lib/partials.mjs';
 import router from './lib/router.mjs';
 import routes from './lib/routes.mjs';
@@ -31,7 +31,7 @@ const cacheStrategy = workbox.strategies.cacheFirst({
 });
 
 const apiStrategy = workbox.strategies.staleWhileRevalidate({
-  cacheName: 'api-cache',
+  cacheName: API_CACHE_NAME,
 });
 
 const streamingResponseStrategy = workbox.streams.strategy([
@@ -41,7 +41,7 @@ const streamingResponseStrategy = workbox.streams.strategy([
     try {
       const route = router(url.pathname);
       if (route === routes.INDEX) {
-        const tag = url.searchParams.get('tag') || defaultTag;
+        const tag = url.searchParams.get('tag') || DEFAULT_TAG;
         const listResponse = await apiStrategy.makeRequest({
           event,
           request: urls.listQuestionsForTag(tag),

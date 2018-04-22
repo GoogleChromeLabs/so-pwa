@@ -17,6 +17,16 @@
 import babel from 'rollup-plugin-babel';
 import string from 'rollup-plugin-string';
 
+// The version of Chroumium used by Samsung Internet 5.x.
+const BROWSER_TARGET = {
+  browsers: ['chrome >= 51'],
+};
+
+// The version of node used in Firebase Cloud Functions.
+const NODE_TARGET = {
+  node: '6.11.5',
+};
+
 export default [{
   input: 'src/server.mjs',
   external: [
@@ -31,10 +41,7 @@ export default [{
     }),
     babel({
       presets: [['env', {
-        targets: {
-          // The version of node used in Firebase Cloud Functions
-          node: '6.11.5',
-        },
+        targets: NODE_TARGET,
         modules: false,
       }]]
     }),
@@ -48,16 +55,27 @@ export default [{
   plugins: [
     babel({
       presets: [['env', {
-        targets: {
-          // The version of Chroumium used by Samsung Internet 5.x.
-          browsers: ['chrome >= 51'],
-        },
+        targets: BROWSER_TARGET,
         modules: false,
-      }]]
+      }]],
     }),
   ],
   output: {
     file: 'build/service-worker.js',
+    format: 'iife',
+  },
+  }, {
+  input: 'src/app.mjs',
+  plugins: [
+    babel({
+      presets: [['env', {
+        targets: BROWSER_TARGET,
+        modules: false,
+      }]],
+    }),
+  ],
+  output: {
+    file: 'www/app.js',
     format: 'iife',
   },
 }];

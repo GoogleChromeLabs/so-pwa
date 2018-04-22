@@ -16,6 +16,7 @@ header {
   position: fixed;
   top: 0;
   width: 100vw;
+  z-index: 1;
 }
 
 .card,header > a {
@@ -102,6 +103,11 @@ form {
   flex-grow: 1;
   height: 150px;
   margin: 8px;
+  opacity: 1.0;
   overflow-y: hidden;
   padding: 16px;
+}
+
+#offline {
+  display: none;
 }

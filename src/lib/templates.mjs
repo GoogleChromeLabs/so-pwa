@@ -14,7 +14,8 @@
  * limitations under the License.
  **/
 
-import defaultTag from './default-tag.mjs';
+import {DEFAULT_TAG} from './constants.mjs';
+import {getQuestion} from './urls.mjs';
 
 function escape(s) {
   return s.replace(/"/g, `&quot;`).replace(/'/g, `&#39;`)
@@ -25,12 +26,13 @@ export function list(tag, items) {
   return `<h3>Top "${tag}" Questions</h3>
 <form method="GET">
   <label for="tag">Switch to tag:</label>
-  <input type="text" id="tag" name="tag" placeholder="${defaultTag}"></input>
+  <input type="text" id="tag" name="tag" placeholder="${DEFAULT_TAG}"></input>
 </form>
 <div id="questions">
 ` + items.map((item) => {
     return `
-<a class="card" href="/questions/${item.question_id}">
+<a class="card" href="/questions/${item.question_id}"
+   data-cache-url="${getQuestion(item.question_id)}">
   ${item.title}
 </a>
 `;

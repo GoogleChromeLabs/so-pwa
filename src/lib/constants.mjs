@@ -14,4 +14,5 @@
  * limitations under the License.
  **/
 
-export default 'service-worker';
+export const API_CACHE_NAME = 'api-cache';
+export const DEFAULT_TAG = 'service-worker';
