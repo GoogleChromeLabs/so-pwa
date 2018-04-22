@@ -24,8 +24,7 @@ import lruCache from 'lru-cache';
 import {DEFAULT_TAG} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
-import router from './lib/router.mjs';
-import routes from './lib/routes.mjs';
+import {router, routes} from './lib/routing.mjs';
 
 // HTML imports.
 import aboutPartial from '../www/partials/about.html';

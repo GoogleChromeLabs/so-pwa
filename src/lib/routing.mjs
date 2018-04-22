@@ -14,8 +14,22 @@
  * limitations under the License.
  **/
 
-export default {
+export const routes = {
   ABOUT: 'about',
   INDEX: 'index',
   QUESTIONS: 'questions',
 };
+
+export function router(pathname) {
+  if (pathname === '/') {
+    return routes.INDEX;
+  }
+
+  if (pathname === '/about') {
+    return routes.ABOUT;
+  }
+
+  if (pathname.startsWith('/questions/')) {
+    return routes.QUESTIONS;
+  }
+}
