@@ -1,4 +1,6 @@
 **/node_modules/*
 **/workbox-v3*/*
-www/sw.js
 build/**/*
+functions/server.js
+www/app.js
+www/service-worker.js

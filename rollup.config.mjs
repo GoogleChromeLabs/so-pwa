@@ -37,13 +37,13 @@ export default [{
   ],
   plugins: [
     string({
-      include: 'www/partials/**/*.html'
+      include: 'www/partials/**/*.html',
     }),
     babel({
       presets: [['env', {
         targets: NODE_TARGET,
         modules: false,
-      }]]
+      }]],
     }),
   ],
   output: {
