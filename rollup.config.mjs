@@ -59,7 +59,7 @@ export default [{
       presets: [['env', {
         targets: BROWSER_TARGET,
         modules: false,
-      }]],
+      }], 'minify'],
     }),
   ],
   output: {
@@ -73,11 +73,12 @@ export default [{
       presets: [['env', {
         targets: BROWSER_TARGET,
         modules: false,
-      }]],
+      }], 'minify'],
     }),
   ],
   output: {
     file: 'build/app.js',
     format: 'iife',
+    sourcemap: true,
   },
 }];
