@@ -49,7 +49,7 @@ export default [{
     }),
   ],
   output: {
-    file: 'functions/server.js',
+    file: 'functions/index.js',
     format: 'cjs',
   },
 }, {
