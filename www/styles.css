@@ -79,10 +79,14 @@ img {
   max-width: 100%;
 }
 
-img.profile {
+.profile > img {
   height: 32px;
   vertical-align: middle;
   width: 32px;
+}
+
+.profile {
+  font-style: italic;
 }
 
 form {

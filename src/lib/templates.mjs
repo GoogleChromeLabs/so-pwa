@@ -52,9 +52,8 @@ export function question(item) {
   const question = `
 <h3>${item.title}</h3>
 <div>${item.body}</div>
-<div>
-  <img class="profile"
-       src="${item.owner.profile_image}"
+<div class="profile">
+  <img src="${item.owner.profile_image}"
        title="Profile image"
        ${item.owner.profile_image &&
          item.owner.profile_image.startsWith('https://www.gravatar.com/') ?
@@ -67,9 +66,8 @@ export function question(item) {
 
   const answers = item.answers ? item.answers.map((answer) => {
     return `
-<div>
-  <img class="profile"
-       src="${answer.owner.profile_image}"
+<div class="profile">
+  <img src="${answer.owner.profile_image}"
        title="Profile image"
        ${answer.owner.profile_image &&
         answer.owner.profile_image.startsWith('https://www.gravatar.com/') ?
