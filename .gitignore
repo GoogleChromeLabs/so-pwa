@@ -6,5 +6,5 @@ src/static/workbox-v*
 # Files
 .firebaserc
 *.log
-functions/server.js
+functions/index.js
 www/service-worker.js
