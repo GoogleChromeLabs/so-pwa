@@ -42,7 +42,7 @@ window.addEventListener('load', async () => {
     for (const uncachedCard of uncachedCards) {
       uncachedCard.style.opacity = '0.3';
     }
-    offlineIndicator.style.display = 'inline-block';
+    offlineIndicator.style.display = 'block';
   };
 
   if (navigator.onLine) {
