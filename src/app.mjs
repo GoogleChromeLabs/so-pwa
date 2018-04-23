@@ -22,25 +22,35 @@ window.addEventListener('load', async () => {
   }
 
   const apiCache = await caches.open(API_CACHE_NAME);
-  const apiCacheContents = await apiCache.keys();
+  const cachedRequests = await apiCache.keys();
+  const cachedUrls = cachedRequests.map((request) => request.url);
 
   const offlineIndicator = document.querySelector('#offline');
   const cards = document.querySelectorAll('.card');
   const uncachedCards = [...cards].filter((card) => {
-    return !apiCacheContents.includes(card.dataset.cacheUrl);
+    return !cachedUrls.includes(card.dataset.cacheUrl);
   });
 
-  window.addEventListener('online', () => {
+  const onlineHandler = () => {
     for (const uncachedCard of uncachedCards) {
       uncachedCard.style.opacity = '1.0';
     }
     offlineIndicator.style.display = 'none';
-  });
+  };
 
-  window.addEventListener('offline', () => {
+  const offlineHandler = () => {
     for (const uncachedCard of uncachedCards) {
       uncachedCard.style.opacity = '0.3';
     }
     offlineIndicator.style.display = 'inline-block';
-  });
+  };
+
+  if (navigator.onLine) {
+    onlineHandler();
+  } else {
+    offlineHandler();
+  }
+
+  window.addEventListener('online', onlineHandler);
+  window.addEventListener('offline', offlineHandler);
 });

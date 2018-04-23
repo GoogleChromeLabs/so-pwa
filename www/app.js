@@ -27,27 +27,39 @@
     }
 
     const apiCache = yield caches.open(API_CACHE_NAME);
-    const apiCacheContents = yield apiCache.keys();
+    const cachedRequests = yield apiCache.keys();
+    const cachedUrls = cachedRequests.map(function (request) {
+      return request.url;
+    });
 
     const offlineIndicator = document.querySelector('#offline');
     const cards = document.querySelectorAll('.card');
     const uncachedCards = [...cards].filter(function (card) {
-      return !apiCacheContents.includes(card.dataset.cacheUrl);
+      return !cachedUrls.includes(card.dataset.cacheUrl);
     });
 
-    window.addEventListener('online', function () {
+    const onlineHandler = function () {
       for (const uncachedCard of uncachedCards) {
         uncachedCard.style.opacity = '1.0';
       }
       offlineIndicator.style.display = 'none';
-    });
+    };
 
-    window.addEventListener('offline', function () {
+    const offlineHandler = function () {
       for (const uncachedCard of uncachedCards) {
         uncachedCard.style.opacity = '0.3';
       }
       offlineIndicator.style.display = 'inline-block';
-    });
+    };
+
+    if (navigator.onLine) {
+      onlineHandler();
+    } else {
+      offlineHandler();
+    }
+
+    window.addEventListener('online', onlineHandler);
+    window.addEventListener('offline', offlineHandler);
   }));
 
 }());

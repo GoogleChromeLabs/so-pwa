@@ -31,6 +31,9 @@ const cacheStrategy = workbox.strategies.cacheFirst({
 
 const apiStrategy = workbox.strategies.staleWhileRevalidate({
   cacheName: API_CACHE_NAME,
+  plugins: [
+    new workbox.expiration.Plugin({maxEntries: 50}),
+  ],
 });
 
 const streamingResponseStrategy = workbox.streams.strategy([
@@ -93,7 +96,7 @@ workbox.routing.registerRoute(
     cacheName: 'other-images',
     plugins: [
       new workbox.cacheableResponse.Plugin({statuses: [0, 200]}),
-      new workbox.expiration.Plugin({maxEntries: 10}),
+      new workbox.expiration.Plugin({maxEntries: 5}),
     ],
   })
 );
