@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "www",
+    "public": "build",
     "headers": [{
       "source":"/service-worker.js",
       "headers": [{

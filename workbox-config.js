@@ -14,11 +14,12 @@
  * limitations under the License.
  **/
 
+const os = require('os');
 const path = require('path');
 
 module.exports = {
-  globDirectory: 'www',
+  globDirectory: 'build',
   globIgnores: ['**/workbox-v*/**'],
-  swSrc: 'build/service-worker.js',
-  swDest: path.join('www', 'service-worker.js'),
+  swSrc: path.join(os.tmpdir(), 'service-worker.js'),
+  swDest: path.join('build', 'service-worker.js'),
 };

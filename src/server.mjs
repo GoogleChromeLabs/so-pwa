@@ -27,10 +27,10 @@ import * as urls from './lib/urls.mjs';
 import {router, routes} from './lib/routing.mjs';
 
 // HTML imports.
-import aboutPartial from '../www/partials/about.html';
-import footPartial from '../www/partials/foot.html';
-import headPartial from '../www/partials/head.html';
-import navbarPartial from '../www/partials/navbar.html';
+import aboutPartial from './static/partials/about.html';
+import footPartial from './static/partials/foot.html';
+import headPartial from './static/partials/head.html';
+import navbarPartial from './static/partials/navbar.html';
 
 // See https://cloud.google.com/functions/docs/bestpractices/networking#http_requests_with_an_axios_package
 const apiClient = axios.create({

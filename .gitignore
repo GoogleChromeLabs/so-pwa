@@ -1,7 +1,7 @@
 # Directories
 build/
 node_modules/
-www/workbox-v*
+src/static/workbox-v*
 
 # Files
 .firebaserc

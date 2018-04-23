@@ -15,6 +15,8 @@
  **/
 
 import babel from 'rollup-plugin-babel';
+import os from 'os';
+import path from 'path';
 import string from 'rollup-plugin-string';
 
 // The version of Chroumium used by Samsung Internet 5.x.
@@ -37,7 +39,7 @@ export default [{
   ],
   plugins: [
     string({
-      include: 'www/partials/**/*.html',
+      include: 'src/static/partials/**/*.html',
     }),
     babel({
       presets: [['env', {
@@ -61,7 +63,7 @@ export default [{
     }),
   ],
   output: {
-    file: 'build/service-worker.js',
+    file: path.join(os.tmpdir(), 'service-worker.js'),
     format: 'iife',
   },
   }, {
@@ -75,7 +77,7 @@ export default [{
     }),
   ],
   output: {
-    file: 'www/app.js',
+    file: 'build/app.js',
     format: 'iife',
   },
 }];
