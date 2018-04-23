@@ -4,6 +4,7 @@ node_modules/
 www/workbox-v*
 
 # Files
+.firebaserc
 *.log
 functions/server.js
 www/service-worker.js
