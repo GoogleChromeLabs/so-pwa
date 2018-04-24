@@ -19,6 +19,10 @@ import {escape} from './escaping.mjs';
 import {getQuestion} from './urls.mjs';
 
 export function list(tag, items) {
+  if (!items) {
+    return `<p class="error">Unable to list questions for the tag.</p>`;
+  }
+
   return `<h3>Top "${tag}" Questions</h3>
 <form method="GET">
   <label for="tag">Switch to tag:</label>
@@ -40,6 +44,10 @@ export function list(tag, items) {
 }
 
 export function question(item) {
+  if (!item) {
+    return `<p class="error">Unable to load question.</p>`;
+  }
+
   const questionDate = new Date(item.creation_date * 1000).toLocaleString();
   const question = `
 <h3>${item.title}</h3>

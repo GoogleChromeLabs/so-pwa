@@ -83,8 +83,13 @@ app.get(routes.get('questions'), async (req, res) => {
   res.write(navbarPartial);
 
   const questionId = req.params.questionId;
-  const data = await requestData(urls.getQuestion(questionId));
-  res.write(templates.question(data.items[0]));
+  try {
+    const data = await requestData(urls.getQuestion(questionId));
+    res.write(templates.question(data.items[0]));
+  } catch (error) {
+    res.write(`<p class="error">Unable to load question:</p>` +
+      `<pre>${error}</pre>`);
+  }
 
   res.write(footPartial);
   res.end();
@@ -94,9 +99,14 @@ app.get(routes.get('index'), async (req, res) => {
   res.write(headPartial);
   res.write(navbarPartial);
 
-  const tag = req.query.tag || DEFAULT_TAG;
-  const data = await requestData(urls.listQuestionsForTag(tag));
-  res.write(templates.list(tag, data.items));
+  try {
+    const tag = req.query.tag || DEFAULT_TAG;
+    const data = await requestData(urls.listQuestionsForTag(tag));
+    res.write(templates.list(tag, data.items));
+  } catch (error) {
+    res.write(`<p class="error">Unable to list questions for tag:</p>` +
+      `<pre>${error}</pre>`);
+  }
 
   res.write(footPartial);
   res.end();
