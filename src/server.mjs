@@ -71,16 +71,11 @@ async function requestData(url) {
 const app = express();
 
 app.get(routes.get('about'), async (req, res) => {
-  res.write(headPartial);
-  res.write(navbarPartial);
-  res.write(aboutPartial);
-  res.write(footPartial);
-  res.end();
+  res.send(headPartial + navbarPartial + aboutPartial + footPartial);
 });
 
 app.get(routes.get('questions'), async (req, res) => {
-  res.write(headPartial);
-  res.write(navbarPartial);
+  res.write(headPartial + navbarPartial);
 
   const questionId = req.params.questionId;
   try {
@@ -96,8 +91,7 @@ app.get(routes.get('questions'), async (req, res) => {
 });
 
 app.get(routes.get('index'), async (req, res) => {
-  res.write(headPartial);
-  res.write(navbarPartial);
+  res.write(headPartial + navbarPartial);
 
   try {
     const tag = req.query.tag || DEFAULT_TAG;
