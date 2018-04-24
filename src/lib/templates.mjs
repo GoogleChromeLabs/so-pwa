@@ -34,29 +34,36 @@ function profile({imageUrl, date, profileLink, displayName, anchorLink}) {
 </div>`;
 }
 
+function questionCard({id, title}) {
+  return `<a class="card"
+             href="/questions/${id}"
+             data-cache-url="${getQuestion(id)}">${title}</a>`;
+}
+
 export function list(tag, items) {
   if (!items) {
     return `<p class="error">Unable to list questions for the tag.</p>`;
   }
 
-  return `<h3>Top "${tag}" Questions</h3>
-<form method="GET">
+  const title = `<h3>Top "${tag}" Questions</h3>`;
+
+  const form = `<form method="GET">
   <label for="tag">Switch to tag:</label>
   <input type="text" id="tag" name="tag" placeholder="${DEFAULT_TAG}"></input>
-</form>
-<div id="questions">
-` + items.map((item) => {
-    return `
-<a class="card" href="/questions/${item.question_id}"
-   data-cache-url="${getQuestion(item.question_id)}">
-  ${item.title}
-</a>
-`;
-  }).join('') +
-  `</div>
-<script>
+</form>`;
+
+  const questionCards = items.map((item) => questionCard({
+    id: item.question_id,
+    title: item.title,
+  })).join('');
+
+  const questions = `<div id="questions">${questionCards}</div>`;
+
+  const metadataScript =  `<script>
   self._title = 'Top "${escape(tag)}" Questions';
 </script>`;
+
+  return title + form + questions + metadataScript;
 }
 
 export function question(item) {
@@ -72,9 +79,8 @@ export function question(item) {
     profileLink: item.owner.link,
   });
 
-  const question = `<h3>${item.title}</h3>
-${ownerProfile}
-<div>${item.body}</div>`;
+  const question = `<h3>${item.title}</h3>` + ownerProfile +
+    `<div>${item.body}</div>`;
 
   const answers = item.answers ? item.answers.map((answer) => {
     const answererProfile = profile({
@@ -89,8 +95,8 @@ ${ownerProfile}
   }) : [];
 
   const metadataScript = `<script>
-    self._title = '${escape(item.title)}';
-  </script>`;
+  self._title = '${escape(item.title)}';
+</script>`;
 
   return [question, ...answers].join('<hr>') + metadataScript;
 }
