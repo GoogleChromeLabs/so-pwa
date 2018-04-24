@@ -82,13 +82,15 @@ export function question(item) {
   const question = `<h3>${item.title}</h3>` + ownerProfile +
     `<div>${item.body}</div>`;
 
-  const answers = item.answers ? item.answers.map((answer) => {
-    const answererProfile = profile({
-      anchorLink: answer.link,
-      date: formatDate(answer.creation_date),
-      displayName: answer.owner.display_name,
-      imageUrl: answer.owner.profile_image,
-      profileLink: answer.owner.link,
+  const answers = item.answers ? item.answers
+    .sort((a, b) => a.score < b.score)
+    .map((answer) => {
+      const answererProfile = profile({
+        anchorLink: answer.link,
+        date: formatDate(answer.creation_date),
+        displayName: answer.owner.display_name,
+        imageUrl: answer.owner.profile_image,
+        profileLink: answer.owner.link,
     });
 
     return answererProfile + `<div>${answer.body}</div>`;

@@ -29,6 +29,6 @@ export function listQuestionsForTag(tag) {
 
 export function getQuestion(questionId) {
   return `${PREFIX}/questions/${encodeURIComponent(questionId)}?` +
-    `&site=stackoverflow&filter=!-y(-r5BkP.Cr0t-HEM7-kaBWztkK7P.K*3fZFXMDP&` +
+    `&site=stackoverflow&filter=!oDhDpbIIc)pcGHpmWvn_fa0Hu6PKHizd-W.RnKEVsIq&` +
     `key=${KEY}`;
 }
