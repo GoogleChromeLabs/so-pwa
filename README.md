@@ -18,6 +18,10 @@ logic via [Workbox](https://developers.google.com/web/tools/workbox/).
 [Node](https://nodejs.org/) by [Rollup](https://rollupjs.org/), with
 [`babel-preset-env`](https://babeljs.io/docs/plugins/preset-env/) ensuring
 compatibility with various runtimes.
+- Shared server + service worker routing logic using
+[Express-style](https://expressjs.com/en/guide/routing.html) patterns and the
+[`regexparam`](https://github.com/lukeed/regexparam) library in the service
+worker.
 
 ## Contributing
 
