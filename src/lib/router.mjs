@@ -14,22 +14,23 @@
  * limitations under the License.
  **/
 
-export const routes = {
-  ABOUT: 'about',
-  INDEX: 'index',
-  QUESTIONS: 'questions',
-};
+import regExpParam from 'regexparam';
 
-export function router(pathname) {
-  if (pathname === '/') {
-    return routes.INDEX;
-  }
+import routes from './routes.mjs';
 
-  if (pathname === '/about') {
-    return routes.ABOUT;
-  }
+const regexpRoutes = new Map();
+for (const [routeName, expressRoute] of routes) {
+  regexpRoutes.set(routeName, regExpParam(expressRoute));
+}
 
-  if (pathname.startsWith('/questions/')) {
-    return routes.QUESTIONS;
+export default function router(pathname) {
+  for (const [route, regexp] of regexpRoutes) {
+    const matches = regexp.exec(pathname);
+    if (matches) {
+      return {
+        route,
+        params: matches.slice(1),
+      };
+    }
   }
 }

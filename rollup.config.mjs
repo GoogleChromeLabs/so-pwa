@@ -17,6 +17,7 @@
 import babel from 'rollup-plugin-babel';
 import os from 'os';
 import path from 'path';
+import resolve from 'rollup-plugin-node-resolve';
 import string from 'rollup-plugin-string';
 
 // The version of Chroumium used by Samsung Internet 5.x.
@@ -33,6 +34,7 @@ export default [{
   input: 'src/server.mjs',
   external: [
     'axios',
+    'express',
     'firebase-functions',
     'https',
     'lru-cache',
@@ -55,6 +57,7 @@ export default [{
 }, {
   input: 'src/service-worker.mjs',
   plugins: [
+    resolve(),
     babel({
       presets: [['env', {
         targets: BROWSER_TARGET,

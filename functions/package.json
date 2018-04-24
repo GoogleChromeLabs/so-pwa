@@ -15,5 +15,8 @@
     "fs-extra": "^5.0.0",
     "lru-cache": "^4.1.2"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "express": "^4.16.3"
+  }
 }

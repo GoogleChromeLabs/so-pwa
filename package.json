@@ -37,6 +37,7 @@
     "firebase-tools": "^3.18.3",
     "postcss-cli": "^5.0.0",
     "postcss-css-variables": "^0.8.1",
+    "regexparam": "^1.0.1",
     "rimraf": "^2.6.2",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.3",

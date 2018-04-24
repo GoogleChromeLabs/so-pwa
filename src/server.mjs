@@ -16,6 +16,7 @@
 
 // CommonJS imports from node_modules or core.
 import axios from 'axios';
+import express from 'express';
 import functions from 'firebase-functions';
 import https from 'https';
 import lruCache from 'lru-cache';
@@ -24,7 +25,7 @@ import lruCache from 'lru-cache';
 import {DEFAULT_TAG} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
-import {router, routes} from './lib/routing.mjs';
+import routes from './lib/routes.mjs';
 
 // HTML imports.
 import aboutPartial from './static/partials/about.html';
@@ -67,8 +68,29 @@ async function requestData(url) {
   return data;
 }
 
-const HANDLERS = {};
-HANDLERS[routes.INDEX] = async (req, res) => {
+const app = express();
+
+app.get(routes.get('about'), async (req, res) => {
+  res.write(headPartial);
+  res.write(navbarPartial);
+  res.write(aboutPartial);
+  res.write(footPartial);
+  res.end();
+});
+
+app.get(routes.get('questions'), async (req, res) => {
+  res.write(headPartial);
+  res.write(navbarPartial);
+
+  const questionId = req.params.questionId;
+  const data = await requestData(urls.getQuestion(questionId));
+  res.write(templates.question(data.items[0]));
+
+  res.write(footPartial);
+  res.end();
+});
+
+app.get(routes.get('index'), async (req, res) => {
   res.write(headPartial);
   res.write(navbarPartial);
 
@@ -78,35 +100,6 @@ HANDLERS[routes.INDEX] = async (req, res) => {
 
   res.write(footPartial);
   res.end();
-};
-
-HANDLERS[routes.QUESTIONS] = async (req, res) => {
-  res.write(headPartial);
-  res.write(navbarPartial);
-
-  const questionId = req.url.split('/').pop();
-  const data = await requestData(urls.getQuestion(questionId));
-  res.write(templates.question(data.items[0]));
-
-  res.write(footPartial);
-  res.end();
-};
-
-HANDLERS[routes.ABOUT] = async (req, res) => {
-  res.write(headPartial);
-  res.write(navbarPartial);
-  res.write(aboutPartial);
-  res.write(footPartial);
-  res.end();
-};
-
-export const handleRequest = functions.https.onRequest(async (req, res) => {
-  const route = router(req.path);
-  const handler = HANDLERS[route];
-  if (handler) {
-    await handler(req, res);
-  } else {
-    res.status(404);
-    res.end();
-  }
 });
+
+export const handleRequest = functions.https.onRequest(app);

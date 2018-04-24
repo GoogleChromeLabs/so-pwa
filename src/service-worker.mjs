@@ -18,7 +18,7 @@ import {API_CACHE_NAME, DEFAULT_TAG} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
 import partials from './lib/partials.mjs';
-import {router, routes} from './lib/routing.mjs';
+import router from './lib/router.mjs';
 
 importScripts('workbox-v3.1.0/workbox-sw.js');
 workbox.setConfig({modulePathPrefix: 'workbox-v3.1.0/'});
@@ -41,8 +41,8 @@ const streamingResponseStrategy = workbox.streams.strategy([
   () => cacheStrategy.makeRequest({request: partials.NAVBAR}),
   async ({event, url}) => {
     try {
-      const route = router(url.pathname);
-      if (route === routes.INDEX) {
+      const {route, params} = router(url.pathname);
+      if (route === 'index') {
         const tag = url.searchParams.get('tag') || DEFAULT_TAG;
         const listResponse = await apiStrategy.makeRequest({
           event,
@@ -53,12 +53,12 @@ const streamingResponseStrategy = workbox.streams.strategy([
         return templates.list(tag, items);
       }
 
-      if (route === routes.ABOUT) {
+      if (route === 'about') {
         return cacheStrategy.makeRequest({request: partials.ABOUT});
       }
 
-      if (route === routes.QUESTIONS) {
-        const questionId = url.pathname.split('/').pop();
+      if (route === 'questions') {
+        const [questionId] = params;
         const questionResponse = await apiStrategy.makeRequest({
           event,
           request: urls.getQuestion(questionId),
