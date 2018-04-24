@@ -15,12 +15,8 @@
  **/
 
 import {DEFAULT_TAG} from './constants.mjs';
+import {escape} from './escaping.mjs';
 import {getQuestion} from './urls.mjs';
-
-function escape(s) {
-  return s.replace(/"/g, `&quot;`).replace(/'/g, `&#39;`)
-    .replace(/</g, `&lt;`).replace(/>/g, `&gt;`);
-}
 
 export function list(tag, items) {
   return `<h3>Top "${tag}" Questions</h3>
@@ -39,11 +35,7 @@ export function list(tag, items) {
   }).join('') +
   `</div>
 <script>
-  function unescape(s) {
-    return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
-      .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
-  }
-  document.title = 'Top "' + unescape('${escape(tag)}') + '" Questions';
+  self._title = 'Top "${escape(tag)}" Questions';
 </script>`;
 }
 
@@ -81,11 +73,7 @@ export function question(item) {
   }) : [];
 
   const metadataScript = `<script>
-    function unescape(s) {
-      return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
-        .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
-    }
-    document.title = unescape('${escape(item.title)}');
+    self._title = '${escape(item.title)}';
   </script>`;
 
   return [question, ...answers].join('<hr>') + metadataScript;

@@ -15,8 +15,13 @@
  **/
 
 import {API_CACHE_NAME} from './lib/constants.mjs';
+import {unescape} from './lib/escaping.mjs';
 
 window.addEventListener('load', async () => {
+  if (self._title) {
+    document.title = unescape(self._title);
+  }
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js');
   }
