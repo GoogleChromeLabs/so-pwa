@@ -20,7 +20,7 @@ import routes from './routes.mjs';
 
 const regexpRoutes = new Map();
 for (const [routeName, expressRoute] of routes) {
-  regexpRoutes.set(routeName, regExpParam(expressRoute));
+  regexpRoutes.set(routeName, regExpParam(expressRoute).pattern);
 }
 
 export default function router(pathname) {
