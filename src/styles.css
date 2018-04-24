@@ -1,9 +1,20 @@
+:root {
+  --color-background: #fff;
+  --color-dark: #0093c4;
+  --color-light: #8bf6ff;
+  --color-primary: #4fc3f7;
+  --color-text: #000;
+  --header-height: 50px;
+  --spacing: 16px;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: #fff;
+  background-color: var(--color-background);
+  color: var(--color-text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 0;
   margin: 0;
@@ -11,7 +22,7 @@ body {
 }
 
 header {
-  height: 50px;
+  height: var(--header-height);
   left: 0;
   position: fixed;
   top: 0;
@@ -26,15 +37,16 @@ header {
 
 header, footer {
   align-items: center;
-  background-color: #babdbe;
+  background-color: var(--color-primary);
   display: flex;
   justify-content: space-around;
   margin: 0;
-  padding: 0 16px 0 16px;
+  padding: 0 var(--spacing) 0 var(--spacing);
 }
 
 main {
-  margin: 82px 32px 32px 32px;
+  --base-margin: calc(var(--spacing) * 2);
+  margin: calc(var(--base-margin) + var(--header-height)) var(--base-margin) var(--base-margin) var(--base-margin);
   overflow-x: hidden;
 }
 
@@ -47,27 +59,29 @@ main:empty:after {
 }
 
 main > div {
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing);
 }
 
 h3 {
-  margin: 0 0 16px 0;
+  margin: 0 0 var(--spacing) 0;
 }
 
 a {
-  color: #000000;
+  color: var(--color-text);
   word-wrap: break-word;
 }
 
 hr {
-  margin: 32px 0 32px 0;
+  background: var(--color-dark);
+  height: 3px;
+  margin: calc(var(--spacing) * 2) 0 calc(var(--spacing) * 2) 0;
 }
 
 pre {
-  background-color: #eceff1;
+  background-color: var(--color-light);
   max-height: 600px;
   overflow: auto;
-  padding: 16px;
+  padding: var(--spacing);
 }
 
 code {
@@ -80,9 +94,10 @@ img {
 }
 
 .profile > img {
-  height: 32px;
+  --size: 32px;
+  height: var(--size);
   vertical-align: middle;
-  width: 32px;
+  width: var(--size);
 }
 
 .profile {
@@ -90,7 +105,7 @@ img {
 }
 
 form {
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing);
 }
 
 #questions {
@@ -99,25 +114,28 @@ form {
 }
 
 .card {
-  background: #eceff1;
+  --height: 150px;
+  background-color: var(--color-light);
   border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   display: inline-block;
-  flex-basis: 300px;
+  flex-basis: calc(var(--height) * 2);
   flex-grow: 1;
-  height: 150px;
-  margin: 8px;
+  height: var(--height);
+  margin: calc(var(--spacing) / 2);
   opacity: 1.0;
   overflow-y: hidden;
-  padding: 16px;
+  padding: var(--spacing);
 }
 
 #offline {
+  --size: 24px;
+  --margin: calc((var(--header-height) - var(--size)) / 2);
   display: none;
-  height: 24px;
+  height: var(--size);
   position: fixed;
-  right: 13px;
-  top: 13px;
-  width: 24px;
+  right: var(--margin);
+  top: var(--margin);
+  width: var(--size);
   z-index: 2;
 }

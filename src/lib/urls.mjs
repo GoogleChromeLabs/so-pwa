@@ -14,6 +14,9 @@
  * limitations under the License.
  **/
 
+// TODO: Replace with native URL object usage.
+// (This isn't available in node v6, used by Firebase Cloud Functions.)
+
 const PREFIX = `https://api.stackexchange.com/2.2`;
 
 // As per https://api.stackexchange.com/docs/throttle
