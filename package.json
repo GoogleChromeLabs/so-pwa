@@ -1,8 +1,7 @@
 {
-  "name": "stack-overflow-pwa",
+  "name": "so-pwa",
   "version": "1.0.0",
   "description": "A PWA for Stack Overflow content.",
-  "main": "index.js",
   "scripts": {
     "build": "npm run clean && npm run static && npm run css && npm run rollup && npm run workbox",
     "clean": "rimraf build",
@@ -17,14 +16,14 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jeffposnick/application-shell.git"
+    "url": "git+https://github.com/GoogleChromeLabs/so-pwa.git"
   },
   "author": "Jeff Posnick",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/jeffposnick/application-shell/issues"
+    "url": "https://github.com/GoogleChromeLabs/so-pwa/issues"
   },
-  "homepage": "https://github.com/jeffposnick/application-shell#readme",
+  "homepage": "https://github.com/GoogleChromeLabs/so-pwa#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
