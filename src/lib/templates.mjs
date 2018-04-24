@@ -18,6 +18,22 @@ import {DEFAULT_TAG} from './constants.mjs';
 import {escape} from './escaping.mjs';
 import {getQuestion} from './urls.mjs';
 
+function formatDate(timestamp) {
+  return new Date(timestamp * 1000).toLocaleString()
+}
+
+function profile({imageUrl, date, profileLink, displayName, anchorLink}) {
+  return `<div class="profile">
+  <img src="${imageUrl}"
+       title="Profile picture"
+       ${imageUrl && imageUrl.startsWith('https://www.gravatar.com/') ?
+         'crossorigin="anonymous"' : ''}>
+  <a href="${profileLink}">${displayName}</a>
+  at
+  <a href="${anchorLink}">${date}</a>
+</div>`;
+}
+
 export function list(tag, items) {
   if (!items) {
     return `<p class="error">Unable to list questions for the tag.</p>`;
@@ -48,36 +64,28 @@ export function question(item) {
     return `<p class="error">Unable to load question.</p>`;
   }
 
-  const questionDate = new Date(item.creation_date * 1000).toLocaleString();
-  const question = `
-<h3>${item.title}</h3>
-<div>${item.body}</div>
-<div class="profile">
-  <img src="${item.owner.profile_image}"
-       title="Profile image"
-       ${item.owner.profile_image &&
-         item.owner.profile_image.startsWith('https://www.gravatar.com/') ?
-         'crossorigin="anonymous"' : ''}>
-  <a href="${item.owner.link}">${item.owner.display_name}</a>
-  asked this at
-  <a href="${item.link}">${questionDate}</a>.
-</div>
-`;
+  const ownerProfile = profile({
+    anchorLink: item.link,
+    date: formatDate(item.creation_date),
+    displayName: item.owner.display_name,
+    imageUrl: item.owner.profile_image,
+    profileLink: item.owner.link,
+  });
+
+  const question = `<h3>${item.title}</h3>
+${ownerProfile}
+<div>${item.body}</div>`;
 
   const answers = item.answers ? item.answers.map((answer) => {
-    return `
-<div class="profile">
-  <img src="${answer.owner.profile_image}"
-       title="Profile image"
-       ${answer.owner.profile_image &&
-        answer.owner.profile_image.startsWith('https://www.gravatar.com/') ?
-        'crossorigin="anonymous"' : ''}>
-  <a href="${answer.owner.link}">${answer.owner.display_name}</a>
-  answered:
-</div>
-<div>${answer.body}</div>
+    const answererProfile = profile({
+      anchorLink: answer.link,
+      date: formatDate(answer.creation_date),
+      displayName: answer.owner.display_name,
+      imageUrl: answer.owner.profile_image,
+      profileLink: answer.owner.link,
+    });
 
-`;
+    return answererProfile + `<div>${answer.body}</div>`;
   }) : [];
 
   const metadataScript = `<script>

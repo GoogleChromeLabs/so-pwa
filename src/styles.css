@@ -51,7 +51,7 @@ main > div {
 }
 
 h3 {
-  margin: 0;
+  margin: 0 0 16px 0;
 }
 
 a {
@@ -90,7 +90,7 @@ img {
 }
 
 form {
-  margin: 16px 0 16px 0;
+  margin-bottom: 16px;
 }
 
 #questions {

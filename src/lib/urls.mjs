@@ -19,16 +19,16 @@ const PREFIX = `https://api.stackexchange.com/2.2`;
 // As per https://api.stackexchange.com/docs/throttle
 // While this is a read-only, non-secret key, please register your own
 // and replace this value if you fork this project!
-const key = encodeURIComponent(`LJ54sdY)tUYvfsHg2kwLvQ((`);
+const KEY = `LJ54sdY)tUYvfsHg2kwLvQ((`;
 
 export function listQuestionsForTag(tag) {
   return `${PREFIX}/questions?pagesize=100&order=desc&sort=votes&tagged=` +
     `${encodeURIComponent(tag)}&site=stackoverflow&filter=!C(o*VY))7BGSrm5xK` +
-    `&key=${key}`;
+    `&key=${KEY}`;
 }
 
 export function getQuestion(questionId) {
-  return `${PREFIX}/questions/${encodeURIComponent(questionId)}?site=` +
-    `stackoverflow&filter=!E-NoEOOqk.KxiVtgwUSr(q72V0fqfidE4Y)th*` +
-    `&key=${key}`;
+  return `${PREFIX}/questions/${encodeURIComponent(questionId)}?` +
+    `&site=stackoverflow&filter=!-y(-r5BkP.Cr0t-HEM7-kaBWztkK7P.K*3fZFXMDP&` +
+    `key=${KEY}`;
 }
