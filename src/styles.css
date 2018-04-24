@@ -80,7 +80,6 @@ hr {
 
 pre {
   background-color: var(--color-code-background);
-  font-size: 0.9em;
   max-height: 600px;
   overflow: auto;
   padding: var(--spacing);
@@ -88,7 +87,13 @@ pre {
 
 code {
   font-family: "Source Code Pro", "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", monospace;
+  font-size: 0.9em;
   word-wrap: break-word;
+}
+
+p > code {
+  background-color: var(--color-code-background);
+  padding: 1px 5px;
 }
 
 img {
