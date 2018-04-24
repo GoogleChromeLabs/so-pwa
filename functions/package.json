@@ -10,13 +10,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "firebase-admin": "~5.10.0",
+    "express": "^4.16.3",
+    "firebase-admin": "^5.12.0",
     "firebase-functions": "^1.0.1",
-    "fs-extra": "^5.0.0",
     "lru-cache": "^4.1.2"
   },
-  "private": true,
-  "devDependencies": {
-    "express": "^4.16.3"
-  }
+  "private": true
 }
