@@ -1,5 +1,6 @@
 :root {
   --color-background: #fff;
+  --color-code-background: #eff0f1;
   --color-dark: #0093c4;
   --color-light: #8bf6ff;
   --color-primary: #4fc3f7;
@@ -78,7 +79,8 @@ hr {
 }
 
 pre {
-  background-color: var(--color-light);
+  background-color: var(--color-code-background);
+  font-size: 0.9em;
   max-height: 600px;
   overflow: auto;
   padding: var(--spacing);
