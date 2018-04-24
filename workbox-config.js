@@ -21,7 +21,7 @@ module.exports = {
   globDirectory: 'build',
   globIgnores: ['**/workbox-v*/**'],
   globPatterns: [
-    '**/*.{css,html,js,svg}',
+    '**/*.{html,js,svg}',
   ],
   swSrc: path.join(os.tmpdir(), 'service-worker.js'),
   swDest: path.join('build', 'service-worker.js'),

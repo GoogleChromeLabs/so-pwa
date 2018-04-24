@@ -41,7 +41,7 @@ export default [{
   ],
   plugins: [
     string({
-      include: 'src/static/partials/**/*.html',
+      include: 'build/partials/**/*.html',
     }),
     babel({
       presets: [['env', {
