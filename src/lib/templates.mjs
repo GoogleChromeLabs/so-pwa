@@ -102,3 +102,9 @@ export function question(item) {
 
   return [question, ...answers].join('<hr>') + metadataScript;
 }
+
+export function error(message) {
+  return `<p>Sorry, this page couldn't be loaded.</p>
+          <p>Try a cached page instead.</p>
+          <pre>${escape(message)}</pre>`;
+}

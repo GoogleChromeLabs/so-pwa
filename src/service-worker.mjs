@@ -28,6 +28,12 @@ workbox.setConfig({
 
 workbox.precaching.precacheAndRoute([]);
 
+const errorContent = (error) => {
+  return `<p>Sorry, this page couldn't be loaded.</p>
+          <p>Try a cached page instead.</p>
+          <pre>${error}</pre>`;
+};
+
 const cacheStrategy = workbox.strategies.cacheFirst({
   cacheName: workbox.core.cacheNames.precache,
 });
@@ -64,7 +70,7 @@ workbox.routing.registerRoute(
         const data = await questionResponse.json();
         return templates.question(data.items[0]);
       } catch (error) {
-        return `<p>An error occurred:</p><pre>${error}</pre>`;
+        return templates.error(error.message);
       }
     },
     () => cacheStrategy.makeRequest({request: partials.FOOT}),
@@ -85,7 +91,7 @@ workbox.routing.registerRoute(regExpRoutes.get('index'),
         const data = await listResponse.json();
         return templates.index(tag, data.items);
       } catch (error) {
-        return `<p>An error occurred:</p><pre>${error}</pre>`;
+        return templates.error(error.message);
       }
     },
     () => cacheStrategy.makeRequest({request: partials.FOOT}),

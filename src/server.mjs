@@ -82,8 +82,7 @@ app.get(routes.get('questions'), async (req, res) => {
     const data = await requestData(urls.getQuestion(questionId));
     res.write(templates.question(data.items[0]));
   } catch (error) {
-    res.write(`<p class="error">Unable to load question:</p>` +
-      `<pre>${error}</pre>`);
+    res.write(templates.error(error.message));
   }
 
   res.write(footPartial);
@@ -98,8 +97,7 @@ app.get(routes.get('index'), async (req, res) => {
     const data = await requestData(urls.listQuestionsForTag(tag));
     res.write(templates.index(tag, data.items));
   } catch (error) {
-    res.write(`<p class="error">Unable to list questions for tag:</p>` +
-      `<pre>${error}</pre>`);
+    res.write(templates.error(error.message));
   }
 
   res.write(footPartial);
