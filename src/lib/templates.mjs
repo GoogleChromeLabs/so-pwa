@@ -19,7 +19,7 @@ import {escape} from './escaping.mjs';
 import {getQuestion} from './urls.mjs';
 
 function formatDate(timestamp) {
-  return new Date(timestamp * 1000).toLocaleString()
+  return new Date(timestamp * 1000).toLocaleString();
 }
 
 function profile({imageUrl, date, profileLink, displayName, anchorLink}) {
@@ -59,7 +59,7 @@ export function list(tag, items) {
 
   const questions = `<div id="questions">${questionCards}</div>`;
 
-  const metadataScript =  `<script>
+  const metadataScript = `<script>
   self._title = 'Top "${escape(tag)}" Questions';
 </script>`;
 
