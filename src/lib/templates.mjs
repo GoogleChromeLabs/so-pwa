@@ -40,7 +40,7 @@ function questionCard({id, title}) {
              data-cache-url="${getQuestion(id)}">${title}</a>`;
 }
 
-export function list(tag, items) {
+export function index(tag, items) {
   if (!items) {
     return `<p class="error">Unable to list questions for the tag.</p>`;
   }

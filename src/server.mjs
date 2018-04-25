@@ -96,7 +96,7 @@ app.get(routes.get('index'), async (req, res) => {
   try {
     const tag = req.query.tag || DEFAULT_TAG;
     const data = await requestData(urls.listQuestionsForTag(tag));
-    res.write(templates.list(tag, data.items));
+    res.write(templates.index(tag, data.items));
   } catch (error) {
     res.write(`<p class="error">Unable to list questions for tag:</p>` +
       `<pre>${error}</pre>`);

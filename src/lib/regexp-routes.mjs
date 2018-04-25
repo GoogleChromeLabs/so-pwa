@@ -14,23 +14,19 @@
  * limitations under the License.
  **/
 
-import regExpParam from 'regexparam';
+import regexparam from 'regexparam';
 
 import routes from './routes.mjs';
 
 const regexpRoutes = new Map();
 for (const [routeName, expressRoute] of routes) {
-  regexpRoutes.set(routeName, regExpParam(expressRoute).pattern);
+  // regexparam creates a RegExp with a leading ^, but Workbox routes against
+  // the full url.href, not just the url.pathname. We need to strip the ^ from
+  // the start of the RegExp to ensure that we can match.
+  const regExpString = regexparam(expressRoute).pattern.source;
+  const regExp = new RegExp(regExpString.slice(1));
+
+  regexpRoutes.set(routeName, regExp);
 }
 
-export default function router(pathname) {
-  for (const [route, regexp] of regexpRoutes) {
-    const matches = regexp.exec(pathname);
-    if (matches) {
-      return {
-        route,
-        params: matches.slice(1),
-      };
-    }
-  }
-}
+export default regexpRoutes;
