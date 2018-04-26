@@ -45,7 +45,9 @@ export function index(tag, items) {
     return `<p class="error">Unable to list questions for the tag.</p>`;
   }
 
-  const title = `<h3>Top "${tag}" Questions</h3>`;
+  const escapedTitle = `Top "${escape(tag)}" Questions`;
+
+  const title = `<h3>${escapedTitle}</h3>`;
 
   const form = `<form method="GET">
   <label for="tag">Switch to tag:</label>
@@ -60,7 +62,7 @@ export function index(tag, items) {
   const questions = `<div id="questions">${questionCards}</div>`;
 
   const metadataScript = `<script>
-  self._title = 'Top "${escape(tag)}" Questions';
+  self._title = '${escapedTitle}';
 </script>`;
 
   return title + form + questions + metadataScript;
