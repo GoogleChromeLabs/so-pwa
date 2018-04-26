@@ -18,15 +18,16 @@ import regexparam from 'regexparam';
 
 import routes from './routes.mjs';
 
-const regexpRoutes = new Map();
+const routeMatchers = new Map();
 for (const [routeName, expressRoute] of routes) {
-  // regexparam creates a RegExp with a leading ^, but Workbox routes against
-  // the full url.href, not just the url.pathname. We need to strip the ^ from
-  // the start of the RegExp to ensure that we can match.
-  const regExpString = regexparam(expressRoute).pattern.source;
-  const regExp = new RegExp(regExpString.slice(1));
-
-  regexpRoutes.set(routeName, regExp);
+  // regexparam creates a RegExp that works when matched against just the
+  // pathname, but Workbox matches against the full URL (including origin and
+  // search params) when doing RegExp matching. To work around this,
+  // we'll create our own functions that implement the matchCallback interface:
+  // https://developers.google.com/web/tools/workbox/reference-docs/latest/workbox.routing.Route#~matchCallback
+  const regExp = regexparam(expressRoute).pattern;
+  const matcher = ({url}) => regExp.exec(url.pathname);
+  routeMatchers.set(routeName, matcher);
 }
 
-export default regexpRoutes;
+export default routeMatchers;

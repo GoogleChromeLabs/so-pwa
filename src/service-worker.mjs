@@ -18,7 +18,7 @@ import {API_CACHE_NAME, DEFAULT_TAG} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
 import partials from './lib/partials.mjs';
-import regExpRoutes from './lib/regexp-routes.mjs';
+import routeMatchers from './lib/route-matchers.mjs';
 
 importScripts('workbox-v3.1.0/workbox-sw.js');
 workbox.setConfig({
@@ -46,7 +46,7 @@ const apiStrategy = workbox.strategies.staleWhileRevalidate({
 });
 
 workbox.routing.registerRoute(
-  regExpRoutes.get('about'),
+  routeMatchers.get('about'),
   workbox.streams.strategy([
     () => cacheStrategy.makeRequest({request: partials.HEAD}),
     () => cacheStrategy.makeRequest({request: partials.NAVBAR}),
@@ -56,13 +56,13 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  regExpRoutes.get('questions'),
+  routeMatchers.get('questions'),
   workbox.streams.strategy([
     () => cacheStrategy.makeRequest({request: partials.HEAD}),
     () => cacheStrategy.makeRequest({request: partials.NAVBAR}),
     async ({event, url, params}) => {
       try {
-        const [questionId] = params;
+        const questionId = params[1];
         const questionResponse = await apiStrategy.makeRequest({
           event,
           request: urls.getQuestion(questionId),
@@ -77,7 +77,8 @@ workbox.routing.registerRoute(
   ])
 );
 
-workbox.routing.registerRoute(regExpRoutes.get('index'),
+workbox.routing.registerRoute(
+  routeMatchers.get('index'),
   workbox.streams.strategy([
     () => cacheStrategy.makeRequest({request: partials.HEAD}),
     () => cacheStrategy.makeRequest({request: partials.NAVBAR}),
