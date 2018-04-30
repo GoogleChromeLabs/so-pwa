@@ -7,7 +7,7 @@
     "type": "image/png"
   }],
   "start_url": "/?utm_source=homescreen",
-  "display": "standalone",
+  "display": "minimal-ui",
   "background_color": "#8bf6ff",
   "theme_color": "#0093c4"
 }
