@@ -19,7 +19,6 @@ const path = require('path');
 
 module.exports = {
   globDirectory: 'build',
-  globIgnores: ['**/workbox-v*/**'],
   globPatterns: [
     '**/*.{html,js,svg}',
   ],

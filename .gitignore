@@ -1,10 +1,8 @@
 # Directories
 build/
 node_modules/
-src/static/workbox-v*
 
 # Files
 .firebaserc
 *.log
 functions/index.js
-www/service-worker.js

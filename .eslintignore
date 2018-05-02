@@ -1,4 +1,3 @@
 **/node_modules
-**/workbox-v3*
 build/
 functions/index.js
