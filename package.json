@@ -5,9 +5,9 @@
   "scripts": {
     "build": "npm run clean && npm run static && npm run css && npm run inline && npm run rollup && npm run workbox",
     "clean": "rimraf build",
-    "css": "postcss --output build/styles.css src/styles.css",
+    "css": "postcss --output /tmp/styles.css src/styles.css",
     "deploy": "npm run build && firebase deploy --only hosting,functions",
-    "inline": "regex-replace '\\/\\*styles\\*\\/' \"$(cat build/styles.css)\" build/partials/",
+    "inline": "regex-replace '\\/\\*styles\\*\\/' \"$(cat /tmp/styles.css)\" build/partials/",
     "lint": "eslint --ext='.js,.mjs' .",
     "rollup": "rollup --config rollup.config.mjs",
     "serve": "npm run build && firebase serve --only hosting,functions",
