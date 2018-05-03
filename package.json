@@ -45,6 +45,6 @@
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-string": "^2.0.2",
-    "workbox-cli": "^3.1.0"
+    "workbox-cli": "^3.2.0"
   }
 }
