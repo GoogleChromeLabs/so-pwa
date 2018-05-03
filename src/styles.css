@@ -2,9 +2,10 @@
   --color-background: #fff;
   --color-code-background: #eff0f1;
   --color-dark: #0093c4;
-  --color-light: #8bf6ff;
-  --color-primary: #4fc3f7;
-  --color-text: #000;
+  --color-light-text: #fff;
+  --color-light: #ededed;
+  --color-primary: #2654dc;
+  --color-text: #565656;
   --header-height: 50px;
   --spacing: 16px;
 }
@@ -36,15 +37,6 @@ header {
   text-decoration: none;
 }
 
-header, footer {
-  align-items: center;
-  background-color: var(--color-primary);
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0 var(--spacing) 0 var(--spacing);
-}
-
 main {
   --base-margin: calc(var(--spacing) * 2);
   margin: calc(var(--base-margin) + var(--header-height)) var(--base-margin) var(--base-margin) var(--base-margin);
@@ -70,6 +62,19 @@ h3 {
 a {
   color: var(--color-text);
   word-wrap: break-word;
+}
+
+header, footer {
+  align-items: center;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0 var(--spacing) 0 var(--spacing);
+}
+
+header > a, footer > p, footer > p > a {
+  color: var(--color-light-text);
 }
 
 hr {
