@@ -20,9 +20,10 @@ import * as urls from './lib/urls.mjs';
 import partials from './lib/partials.mjs';
 import routeMatchers from './lib/route-matchers.mjs';
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js');
+importScripts('workbox-v3.2.0/workbox-sw.js');
 workbox.setConfig({
   debug: true,
+  modulePathPrefix: 'workbox-v3.2.0/',
 });
 workbox.precaching.precacheAndRoute([]);
 
