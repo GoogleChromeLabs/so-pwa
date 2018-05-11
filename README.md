@@ -1,3 +1,7 @@
+## "Beyond Single Page Apps" @ Google I/O 2018
+
+[![Google I/O Session](https://img.youtube.com/vi/X6yof_vIQnk/0.jpg)](https://www.youtube.com/watch?v=X6yof_vIQnk)
+
 ## About SO PWA
 
 Live deployment: https://so-pwa.firebaseapp.com/
