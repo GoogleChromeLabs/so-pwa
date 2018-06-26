@@ -1,5 +1,9 @@
 ## "Beyond Single Page Apps" @ Google I/O 2018
 
+The code in this project is described in more detail in
+[this article](https://developers.google.com/web/updates/2018/05/beyond-spa), as well as the video
+for the corresponding Google I/O 2018 session:
+
 [![Google I/O Session](https://img.youtube.com/vi/X6yof_vIQnk/0.jpg)](https://www.youtube.com/watch?v=X6yof_vIQnk)
 
 ## About SO PWA
