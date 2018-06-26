@@ -99,7 +99,7 @@ workbox.routing.registerRoute(
     plugins: [
       new workbox.expiration.Plugin({
         maxEntries: 50,
-        purgeOnQuotaError: true,
+        // purgeOnQuotaError: true,
       }),
     ],
   })
@@ -113,7 +113,7 @@ workbox.routing.registerRoute(
       new workbox.cacheableResponse.Plugin({statuses: [0, 200]}),
       new workbox.expiration.Plugin({
         maxEntries: 10,
-        purgeOnQuotaError: true,
+        // purgeOnQuotaError: true,
       }),
     ],
   })
