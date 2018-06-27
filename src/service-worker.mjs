@@ -20,7 +20,7 @@ import * as urls from './lib/urls.mjs';
 import partials from './lib/partials.mjs';
 import routeMatchers from './lib/route-matchers.mjs';
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.3.0/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.3.1/workbox-sw.js');
 workbox.setConfig({
   debug: true,
 });
@@ -99,7 +99,7 @@ workbox.routing.registerRoute(
     plugins: [
       new workbox.expiration.Plugin({
         maxEntries: 50,
-        // purgeOnQuotaError: true,
+        purgeOnQuotaError: true,
       }),
     ],
   })
@@ -113,7 +113,7 @@ workbox.routing.registerRoute(
       new workbox.cacheableResponse.Plugin({statuses: [0, 200]}),
       new workbox.expiration.Plugin({
         maxEntries: 10,
-        // purgeOnQuotaError: true,
+        purgeOnQuotaError: true,
       }),
     ],
   })
