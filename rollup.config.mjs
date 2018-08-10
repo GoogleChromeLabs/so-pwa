@@ -20,14 +20,14 @@ import path from 'path';
 import resolve from 'rollup-plugin-node-resolve';
 import string from 'rollup-plugin-string';
 
-// The version of Chroumium used by Samsung Internet 5.x.
+// The version of Chromium used by Samsung Internet 5.x.
 const BROWSER_TARGET = {
   browsers: ['chrome >= 51'],
 };
 
 // The version of node used in Firebase Cloud Functions.
 const NODE_TARGET = {
-  node: '6.14.0',
+  node: '8',
 };
 
 export default [{
