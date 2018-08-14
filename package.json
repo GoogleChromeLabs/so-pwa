@@ -34,7 +34,7 @@
     "eslint": "^5.3.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-header": "^1.2.0",
-    "firebase-tools": "^4.0.3",
+    "firebase-tools": "^4.1.0",
     "postcss-cli": "^6.0.0",
     "postcss-css-variables": "^0.9.0",
     "regex-replace": "^2.1.0",

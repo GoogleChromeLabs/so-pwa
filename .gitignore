@@ -1,4 +1,5 @@
 # Directories
+.firebase/
 build/
 node_modules/
 
