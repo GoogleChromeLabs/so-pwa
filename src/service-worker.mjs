@@ -25,12 +25,7 @@ workbox.setConfig({
   debug: true,
 });
 workbox.precaching.precacheAndRoute([]);
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    workbox.precaching.cleanupOutdatedCaches()
-  );
-});
+workbox.precaching.cleanupOutdatedCaches();
 
 const cacheStrategy = new workbox.strategies.CacheFirst({
   cacheName: workbox.core.cacheNames.precache,
