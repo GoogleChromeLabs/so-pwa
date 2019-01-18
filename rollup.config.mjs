@@ -15,14 +15,15 @@
  **/
 
 import babel from 'rollup-plugin-babel';
+import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import os from 'os';
 import path from 'path';
 import resolve from 'rollup-plugin-node-resolve';
 import string from 'rollup-plugin-string';
 
-// The version of Chromium used by Samsung Internet 5.x.
+// The version of Chromium used by Samsung Internet 6.x.
 const BROWSER_TARGET = {
-  browsers: ['chrome >= 51'],
+  browsers: ['chrome >= 56'],
 };
 
 // The version of node used in Firebase Cloud Functions.
@@ -44,7 +45,7 @@ export default [{
       include: 'build/partials/**/*.html',
     }),
     babel({
-      presets: [['env', {
+      presets: [['@babel/preset-env', {
         targets: NODE_TARGET,
         modules: false,
       }]],
@@ -59,25 +60,27 @@ export default [{
   plugins: [
     resolve(),
     babel({
-      presets: [['env', {
+      presets: [['@babel/preset-env', {
         targets: BROWSER_TARGET,
         modules: false,
-      }], 'minify'],
+      }]],
     }),
+    compiler(),
   ],
   output: {
     file: path.join(os.tmpdir(), 'service-worker.js'),
     format: 'iife',
   },
-  }, {
+}, {
   input: 'src/app.mjs',
   plugins: [
     babel({
-      presets: [['env', {
+      presets: [['@babel/preset-env', {
         targets: BROWSER_TARGET,
         modules: false,
-      }], 'minify'],
+      }]],
     }),
+    compiler(),
   ],
   output: {
     file: 'build/app.js',
