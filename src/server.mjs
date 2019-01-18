@@ -19,7 +19,7 @@ import axios from 'axios';
 import express from 'express';
 import functions from 'firebase-functions';
 import https from 'https';
-import lruCache from 'lru-cache';
+import LRU from 'lru-cache';
 
 // Local ES2105 imports.
 import {DEFAULT_TAG} from './lib/constants.mjs';
@@ -47,7 +47,7 @@ const httpsAgent = new https.Agent({
 // to obtain API responses from this server process. But, to cut down on the
 // number of API requests that fresh browser clients might trigger, let's put
 // in some light-weight caching that's local to this process.
-const apiCache = lruCache({
+const apiCache = new LRU({
   max: 100,
   maxAge: 1000 * 60 * 5, // 5 minutes.
 });
