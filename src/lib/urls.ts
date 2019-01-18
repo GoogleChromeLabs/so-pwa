@@ -24,13 +24,13 @@ const PREFIX = `https://api.stackexchange.com/2.2`;
 // and replace this value if you fork this project!
 const KEY = `LJ54sdY)tUYvfsHg2kwLvQ((`;
 
-export function listQuestionsForTag(tag) {
+export function listQuestionsForTag(tag: string) {
   return `${PREFIX}/questions?pagesize=100&order=desc&sort=votes&tagged=` +
     `${encodeURIComponent(tag)}&site=stackoverflow&filter=!C(o*VY))7BGSrm5xK` +
     `&key=${KEY}`;
 }
 
-export function getQuestion(questionId) {
+export function getQuestion(questionId: string) {
   return `${PREFIX}/questions/${encodeURIComponent(questionId)}?` +
     `&site=stackoverflow&filter=!oDhDpbIIc)pcGHpmWvn_fa0Hu6PKHizd-W.RnKEVsIq&` +
     `key=${KEY}`;

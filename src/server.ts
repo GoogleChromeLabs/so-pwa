@@ -22,10 +22,10 @@ import https from 'https';
 import LRU from 'lru-cache';
 
 // Local ES2105 imports.
-import {DEFAULT_TAG} from './lib/constants.mjs';
-import * as templates from './lib/templates.mjs';
-import * as urls from './lib/urls.mjs';
-import routes from './lib/routes.mjs';
+import {DEFAULT_TAG} from './lib/constants.ts';
+import * as templates from './lib/templates.ts';
+import * as urls from './lib/urls.ts';
+import routes from './lib/routes.ts';
 
 // HTML imports.
 import aboutPartial from '../build/partials/about.html';
@@ -52,7 +52,7 @@ const apiCache = new LRU({
   maxAge: 1000 * 60 * 5, // 5 minutes.
 });
 
-async function requestData(url) {
+async function requestData(url: string) {
   const cachedResponse = apiCache.get(url);
   if (cachedResponse) {
     return cachedResponse;

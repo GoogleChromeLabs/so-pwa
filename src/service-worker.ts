@@ -14,11 +14,11 @@
  * limitations under the License.
  **/
 
-import {API_CACHE_NAME, DEFAULT_TAG} from './lib/constants.mjs';
-import * as templates from './lib/templates.mjs';
-import * as urls from './lib/urls.mjs';
-import partials from './lib/partials.mjs';
-import routeMatchers from './lib/route-matchers.mjs';
+import {API_CACHE_NAME, DEFAULT_TAG} from './lib/constants.ts';
+import * as templates from './lib/templates.ts';
+import * as urls from './lib/urls.ts';
+import partials from './lib/partials.ts';
+import routeMatchers from './lib/route-matchers.ts';
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.0.0-beta.1/workbox-sw.js');
 workbox.setConfig({
@@ -53,7 +53,7 @@ workbox.routing.registerRoute(
   workbox.streams.strategy([
     () => cacheStrategy.makeRequest({request: partials.head()}),
     () => cacheStrategy.makeRequest({request: partials.navbar()}),
-    async ({event, url, params}) => {
+    async ({event, params}: {event: FetchEvent, params: Array<string>}) => {
       try {
         const questionId = params[1];
         const questionResponse = await apiStrategy.makeRequest({
@@ -75,7 +75,7 @@ workbox.routing.registerRoute(
   workbox.streams.strategy([
     () => cacheStrategy.makeRequest({request: partials.head()}),
     () => cacheStrategy.makeRequest({request: partials.navbar()}),
-    async ({event, url}) => {
+    async ({event, url}: {event: FetchEvent, url: URL}) => {
       try {
         const tag = url.searchParams.get('tag') || DEFAULT_TAG;
         const listResponse = await apiStrategy.makeRequest({

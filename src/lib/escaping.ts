@@ -14,12 +14,12 @@
  * limitations under the License.
  **/
 
-export function escape(s) {
+export function escape(s: string) {
   return s.replace(/"/g, `&quot;`).replace(/'/g, `&#39;`)
     .replace(/</g, `&lt;`).replace(/>/g, `&gt;`);
 }
 
-export function unescape(s) {
+export function unescape(s: string) {
   return s.replace(/&gt;/g, `>`).replace(/&lt;/g, `<`)
     .replace(/&#39;/g, `'`).replace(/&quot;/g, `"`);
 }

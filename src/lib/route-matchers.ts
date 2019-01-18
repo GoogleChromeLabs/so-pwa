@@ -16,7 +16,7 @@
 
 import regexparam from 'regexparam';
 
-import routes from './routes.mjs';
+import routes from './routes.ts';
 
 const routeMatchers = new Map();
 for (const [routeName, expressRoute] of routes) {
@@ -26,7 +26,7 @@ for (const [routeName, expressRoute] of routes) {
   // we'll create our own functions that implement the matchCallback interface:
   // https://developers.google.com/web/tools/workbox/reference-docs/latest/workbox.routing.Route#~matchCallback
   const regExp = regexparam(expressRoute).pattern;
-  const matcher = ({url}) => regExp.exec(url.pathname);
+  const matcher = ({url}: {url: URL}) => regExp.exec(url.pathname);
   routeMatchers.set(routeName, matcher);
 }
 

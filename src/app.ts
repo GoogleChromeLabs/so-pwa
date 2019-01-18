@@ -14,12 +14,12 @@
  * limitations under the License.
  **/
 
-import {API_CACHE_NAME} from './lib/constants.mjs';
-import {unescape} from './lib/escaping.mjs';
+import {API_CACHE_NAME} from './lib/constants.ts';
+import {unescape} from './lib/escaping.ts';
 
 window.addEventListener('load', async () => {
-  if (self._title) {
-    document.title = unescape(self._title);
+  if ((self as any)._title) {
+    document.title = unescape((self as any)._title);
   }
 
   if ('serviceWorker' in navigator) {
@@ -30,9 +30,9 @@ window.addEventListener('load', async () => {
   const cachedRequests = await apiCache.keys();
   const cachedUrls = cachedRequests.map((request) => request.url);
 
-  const offlineIndicator = document.querySelector('#offline');
-  const cards = document.querySelectorAll('.card');
-  const uncachedCards = [...cards].filter((card) => {
+  const offlineIndicator = document.querySelector('#offline') as HTMLElement;
+  const cards = [...document.querySelectorAll('.card')] as Array<HTMLElement>;
+  const uncachedCards = cards.filter((card) => {
     return !cachedUrls.includes(card.dataset.cacheUrl);
   });
 

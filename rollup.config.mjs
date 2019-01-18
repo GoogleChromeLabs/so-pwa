@@ -32,7 +32,7 @@ const NODE_TARGET = {
 };
 
 export default [{
-  input: 'src/server.mjs',
+  input: 'src/server.ts',
   external: [
     'axios',
     'express',
@@ -45,10 +45,14 @@ export default [{
       include: 'build/partials/**/*.html',
     }),
     babel({
-      presets: [['@babel/preset-env', {
-        targets: NODE_TARGET,
-        modules: false,
-      }]],
+      extensions: ['.ts'],
+      presets: [
+        '@babel/preset-typescript',
+        ['@babel/preset-env', {
+          targets: NODE_TARGET,
+          modules: false,
+        }],
+      ],
     }),
   ],
   output: {
@@ -56,14 +60,18 @@ export default [{
     format: 'cjs',
   },
 }, {
-  input: 'src/service-worker.mjs',
+  input: 'src/service-worker.ts',
   plugins: [
     resolve(),
     babel({
-      presets: [['@babel/preset-env', {
-        targets: BROWSER_TARGET,
-        modules: false,
-      }]],
+      extensions: ['.ts'],
+      presets: [
+        '@babel/preset-typescript',
+        ['@babel/preset-env', {
+          targets: BROWSER_TARGET,
+          modules: false,
+        }],
+      ],
     }),
     compiler(),
   ],
@@ -72,13 +80,17 @@ export default [{
     format: 'iife',
   },
 }, {
-  input: 'src/app.mjs',
+  input: 'src/app.ts',
   plugins: [
     babel({
-      presets: [['@babel/preset-env', {
-        targets: BROWSER_TARGET,
-        modules: false,
-      }]],
+      extensions: ['.ts'],
+      presets: [
+        '@babel/preset-typescript',
+        ['@babel/preset-env', {
+          targets: BROWSER_TARGET,
+          modules: false,
+        }],
+      ],
     }),
     compiler(),
   ],

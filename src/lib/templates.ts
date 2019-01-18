@@ -14,15 +14,18 @@
  * limitations under the License.
  **/
 
-import {DEFAULT_TAG} from './constants.mjs';
-import {escape} from './escaping.mjs';
-import {getQuestion} from './urls.mjs';
+import {DEFAULT_TAG} from './constants.ts';
+import {escape} from './escaping.ts';
+import {getQuestion} from './urls.ts';
 
-function formatDate(timestamp) {
+function formatDate(timestamp: number) {
   return new Date(timestamp * 1000).toLocaleString();
 }
 
-function profile({imageUrl, date, profileLink, displayName, anchorLink}) {
+function profile(
+  {imageUrl, date, profileLink, displayName, anchorLink}:
+  {imageUrl: string, date: string, profileLink: string, displayName: string, anchorLink: string}
+) {
   return `<div class="profile">
   <img src="${imageUrl}"
        title="Profile picture"
@@ -34,13 +37,16 @@ function profile({imageUrl, date, profileLink, displayName, anchorLink}) {
 </div>`;
 }
 
-function questionCard({id, title}) {
+function questionCard(
+  {id, title}:
+  {id: string, title: string}
+) {
   return `<a class="card"
              href="/questions/${id}"
              data-cache-url="${getQuestion(id)}">${title}</a>`;
 }
 
-export function index(tag, items) {
+export function index(tag: string, items: Array<Question>) {
   if (!items) {
     return `<p class="error">Unable to list questions for the tag.</p>`;
   }
@@ -68,7 +74,7 @@ export function index(tag, items) {
   return title + form + questions + metadataScript;
 }
 
-export function question(item) {
+export function question(item: Question) {
   if (!item) {
     return `<p class="error">Unable to load question.</p>`;
   }
@@ -85,8 +91,8 @@ export function question(item) {
     `<div>${item.body}</div>`;
 
   const answers = item.answers ? item.answers
-    .sort((a, b) => a.score < b.score)
-    .map((answer) => {
+    .sort((a: Answer, b: Answer) => a.score - b.score)
+    .map((answer: Answer) => {
       const answererProfile = profile({
         anchorLink: answer.link,
         date: formatDate(answer.creation_date),
@@ -105,7 +111,7 @@ export function question(item) {
   return [question, ...answers].join('<hr>') + metadataScript;
 }
 
-export function error(message) {
+export function error(message: string) {
   return `<p>Sorry, this page couldn't be loaded.</p>
           <p>Try a cached page instead.</p>
           <pre>${escape(message)}</pre>`;
