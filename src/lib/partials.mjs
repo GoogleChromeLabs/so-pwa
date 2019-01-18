@@ -15,8 +15,8 @@
  **/
 
 export default {
-  ABOUT: 'partials/about.html',
-  FOOT: 'partials/foot.html',
-  HEAD: 'partials/head.html',
-  NAVBAR: 'partials/navbar.html',
+  about: () => workbox.precaching.getCacheKeyForURL('partials/about.html'),
+  foot: () => workbox.precaching.getCacheKeyForURL('partials/foot.html'),
+  head: () => workbox.precaching.getCacheKeyForURL('partials/head.html'),
+  navbar: () => workbox.precaching.getCacheKeyForURL('partials/navbar.html'),
 };

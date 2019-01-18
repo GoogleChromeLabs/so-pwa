@@ -20,17 +20,18 @@ import * as urls from './lib/urls.mjs';
 import partials from './lib/partials.mjs';
 import routeMatchers from './lib/route-matchers.mjs';
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.0.0-beta.0/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.0.0-beta.1/workbox-sw.js');
 workbox.setConfig({
   debug: true,
 });
 workbox.precaching.precacheAndRoute([]);
+workbox.precaching.cleanupOutdatedCaches();
 
-const cacheStrategy = workbox.strategies.cacheFirst({
+const cacheStrategy = new workbox.strategies.CacheFirst({
   cacheName: workbox.core.cacheNames.precache,
 });
 
-const apiStrategy = workbox.strategies.staleWhileRevalidate({
+const apiStrategy = new workbox.strategies.StaleWhileRevalidate({
   cacheName: API_CACHE_NAME,
   plugins: [
     new workbox.expiration.Plugin({maxEntries: 50}),
@@ -40,18 +41,18 @@ const apiStrategy = workbox.strategies.staleWhileRevalidate({
 workbox.routing.registerRoute(
   routeMatchers.get('about'),
   workbox.streams.strategy([
-    () => cacheStrategy.makeRequest({request: partials.HEAD}),
-    () => cacheStrategy.makeRequest({request: partials.NAVBAR}),
-    () => cacheStrategy.makeRequest({request: partials.ABOUT}),
-    () => cacheStrategy.makeRequest({request: partials.FOOT}),
+    () => cacheStrategy.makeRequest({request: partials.head()}),
+    () => cacheStrategy.makeRequest({request: partials.navbar()}),
+    () => cacheStrategy.makeRequest({request: partials.about()}),
+    () => cacheStrategy.makeRequest({request: partials.foot()}),
   ])
 );
 
 workbox.routing.registerRoute(
   routeMatchers.get('questions'),
   workbox.streams.strategy([
-    () => cacheStrategy.makeRequest({request: partials.HEAD}),
-    () => cacheStrategy.makeRequest({request: partials.NAVBAR}),
+    () => cacheStrategy.makeRequest({request: partials.head()}),
+    () => cacheStrategy.makeRequest({request: partials.navbar()}),
     async ({event, url, params}) => {
       try {
         const questionId = params[1];
@@ -65,15 +66,15 @@ workbox.routing.registerRoute(
         return templates.error(error.message);
       }
     },
-    () => cacheStrategy.makeRequest({request: partials.FOOT}),
+    () => cacheStrategy.makeRequest({request: partials.foot()}),
   ])
 );
 
 workbox.routing.registerRoute(
   routeMatchers.get('index'),
   workbox.streams.strategy([
-    () => cacheStrategy.makeRequest({request: partials.HEAD}),
-    () => cacheStrategy.makeRequest({request: partials.NAVBAR}),
+    () => cacheStrategy.makeRequest({request: partials.head()}),
+    () => cacheStrategy.makeRequest({request: partials.navbar()}),
     async ({event, url}) => {
       try {
         const tag = url.searchParams.get('tag') || DEFAULT_TAG;
@@ -87,14 +88,14 @@ workbox.routing.registerRoute(
         return templates.error(error.message);
       }
     },
-    () => cacheStrategy.makeRequest({request: partials.FOOT}),
+    () => cacheStrategy.makeRequest({request: partials.foot()}),
   ])
 );
 
 // Gravatar images support CORS, so we won't be storing opaque responses.
 workbox.routing.registerRoute(
   new RegExp('https://www\\.gravatar\\.com/'),
-  workbox.strategies.cacheFirst({
+  new workbox.strategies.CacheFirst({
     cacheName: 'profile-images',
     plugins: [
       new workbox.expiration.Plugin({
@@ -107,7 +108,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   new RegExp('^https://.*(?:\\.jpg|\\.png)'),
-  workbox.strategies.cacheFirst({
+  new workbox.strategies.CacheFirst({
     cacheName: 'other-images',
     plugins: [
       new workbox.cacheableResponse.Plugin({statuses: [0, 200]}),
@@ -119,5 +120,5 @@ workbox.routing.registerRoute(
   })
 );
 
-workbox.skipWaiting();
-workbox.clientsClaim();
+workbox.core.skipWaiting();
+workbox.core.clientsClaim();
