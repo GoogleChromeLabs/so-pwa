@@ -15,6 +15,7 @@
  **/
 
 import {API_CACHE_NAME} from './lib/constants.mjs';
+import {syncContentIndex} from './lib/content-indexing.mjs';
 import {unescape} from './lib/escaping.mjs';
 
 window.addEventListener('load', async () => {
@@ -23,7 +24,10 @@ window.addEventListener('load', async () => {
   }
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js');
+    const registration = await navigator.serviceWorker.register(
+        '/service-worker.js');
+
+    syncContentIndex(registration);
   }
 
   const apiCache = await caches.open(API_CACHE_NAME);
