@@ -14,12 +14,12 @@
  * limitations under the License.
  **/
 
+import {string} from 'rollup-plugin-string';
 import babel from 'rollup-plugin-babel';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import os from 'os';
 import path from 'path';
 import resolve from 'rollup-plugin-node-resolve';
-import string from 'rollup-plugin-string';
 
 // The version of Chromium used by Samsung Internet 6.x.
 const BROWSER_TARGET = {
