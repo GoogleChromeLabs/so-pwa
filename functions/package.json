@@ -9,10 +9,10 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "express": "^4.16.4",
-    "firebase-admin": "^6.5.0",
-    "firebase-functions": "^2.1.0",
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.9.2",
+    "firebase-functions": "^3.3.0",
     "lru-cache": "^5.1.1"
   },
   "private": true,

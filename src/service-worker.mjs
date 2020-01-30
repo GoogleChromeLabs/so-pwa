@@ -14,49 +14,50 @@
  * limitations under the License.
  **/
 
+import {CacheableResponsePlugin} from 'workbox-cacheable-response';
+import {CacheFirst, StaleWhileRevalidate} from 'workbox-strategies';
+import {cleanupOutdatedCaches, matchPrecache, precacheAndRoute}
+  from 'workbox-precaching';
+import {clientsClaim, skipWaiting} from 'workbox-core';
+import {ExpirationPlugin} from 'workbox-expiration';
+import {registerRoute} from 'workbox-routing';
+import {strategy as streamsStrategy} from 'workbox-streams';
+
 import {API_CACHE_NAME, DEFAULT_TAG} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
 import partials from './lib/partials.mjs';
 import routeMatchers from './lib/route-matchers.mjs';
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.0.0-beta.1/workbox-sw.js');
-workbox.setConfig({
-  debug: true,
-});
-workbox.precaching.precacheAndRoute([]);
-workbox.precaching.cleanupOutdatedCaches();
+precacheAndRoute(self.__WB_MANIFEST);
+cleanupOutdatedCaches();
 
-const cacheStrategy = new workbox.strategies.CacheFirst({
-  cacheName: workbox.core.cacheNames.precache,
-});
-
-const apiStrategy = new workbox.strategies.StaleWhileRevalidate({
+const apiStrategy = new StaleWhileRevalidate({
   cacheName: API_CACHE_NAME,
   plugins: [
-    new workbox.expiration.Plugin({maxEntries: 50}),
+    new ExpirationPlugin({maxEntries: 50}),
   ],
 });
 
-workbox.routing.registerRoute(
+registerRoute(
     routeMatchers.get('about'),
-    workbox.streams.strategy([
-      () => cacheStrategy.makeRequest({request: partials.head()}),
-      () => cacheStrategy.makeRequest({request: partials.navbar()}),
-      () => cacheStrategy.makeRequest({request: partials.about()}),
-      () => cacheStrategy.makeRequest({request: partials.foot()}),
+    streamsStrategy([
+      () => matchPrecache(partials.head),
+      () => matchPrecache(partials.navbar),
+      () => matchPrecache(partials.about),
+      () => matchPrecache(partials.foot),
     ])
 );
 
-workbox.routing.registerRoute(
+registerRoute(
     routeMatchers.get('questions'),
-    workbox.streams.strategy([
-      () => cacheStrategy.makeRequest({request: partials.head()}),
-      () => cacheStrategy.makeRequest({request: partials.navbar()}),
-      async ({event, url, params}) => {
+    streamsStrategy([
+      () => matchPrecache(partials.head),
+      () => matchPrecache(partials.navbar),
+      async ({event, params}) => {
         try {
           const questionId = params[1];
-          const questionResponse = await apiStrategy.makeRequest({
+          const questionResponse = await apiStrategy.handle({
             event,
             request: urls.getQuestion(questionId),
           });
@@ -66,19 +67,19 @@ workbox.routing.registerRoute(
           return templates.error(error.message);
         }
       },
-      () => cacheStrategy.makeRequest({request: partials.foot()}),
+      () => matchPrecache(partials.foot),
     ])
 );
 
-workbox.routing.registerRoute(
+registerRoute(
     routeMatchers.get('index'),
-    workbox.streams.strategy([
-      () => cacheStrategy.makeRequest({request: partials.head()}),
-      () => cacheStrategy.makeRequest({request: partials.navbar()}),
+    streamsStrategy([
+      () => matchPrecache(partials.head),
+      () => matchPrecache(partials.navbar),
       async ({event, url}) => {
         try {
           const tag = url.searchParams.get('tag') || DEFAULT_TAG;
-          const listResponse = await apiStrategy.makeRequest({
+          const listResponse = await apiStrategy.handle({
             event,
             request: urls.listQuestionsForTag(tag),
           });
@@ -88,17 +89,17 @@ workbox.routing.registerRoute(
           return templates.error(error.message);
         }
       },
-      () => cacheStrategy.makeRequest({request: partials.foot()}),
+      () => matchPrecache(partials.foot),
     ])
 );
 
 // Gravatar images support CORS, so we won't be storing opaque responses.
-workbox.routing.registerRoute(
+registerRoute(
     new RegExp('https://www\\.gravatar\\.com/'),
-    new workbox.strategies.CacheFirst({
+    new CacheFirst({
       cacheName: 'profile-images',
       plugins: [
-        new workbox.expiration.Plugin({
+        new ExpirationPlugin({
           maxEntries: 50,
           purgeOnQuotaError: true,
         }),
@@ -106,13 +107,13 @@ workbox.routing.registerRoute(
     })
 );
 
-workbox.routing.registerRoute(
+registerRoute(
     new RegExp('^https://.*(?:\\.jpg|\\.png)'),
-    new workbox.strategies.CacheFirst({
+    new CacheFirst({
       cacheName: 'other-images',
       plugins: [
-        new workbox.cacheableResponse.Plugin({statuses: [0, 200]}),
-        new workbox.expiration.Plugin({
+        new CacheableResponsePlugin({statuses: [0, 200]}),
+        new ExpirationPlugin({
           maxEntries: 10,
           purgeOnQuotaError: true,
         }),
@@ -120,5 +121,5 @@ workbox.routing.registerRoute(
     })
 );
 
-workbox.core.skipWaiting();
-workbox.core.clientsClaim();
+skipWaiting();
+clientsClaim();
