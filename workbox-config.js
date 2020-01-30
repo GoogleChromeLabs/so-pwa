@@ -14,7 +14,6 @@
  * limitations under the License.
  **/
 
-const os = require('os');
 const path = require('path');
 
 module.exports = {
@@ -22,6 +21,6 @@ module.exports = {
   globPatterns: [
     '**/*.{html,js,svg,png,json}',
   ],
-  swSrc: path.join(os.tmpdir(), 'service-worker.js'),
+  swSrc: path.join('build', 'service-worker.js'),
   swDest: path.join('build', 'service-worker.js'),
 };

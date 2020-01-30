@@ -17,8 +17,7 @@
 import {string} from 'rollup-plugin-string';
 import babel from 'rollup-plugin-babel';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
-import os from 'os';
-import path from 'path';
+import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 
 // The version of Chromium used by Samsung Internet 6.x.
@@ -58,6 +57,10 @@ export default [{
 }, {
   input: 'src/service-worker.mjs',
   plugins: [
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(
+          process.env.NODE_ENV || 'development'),
+    }),
     resolve(),
     babel({
       presets: [['@babel/preset-env', {
@@ -68,7 +71,7 @@ export default [{
     compiler(),
   ],
   output: {
-    file: path.join(os.tmpdir(), 'service-worker.js'),
+    file: 'build/service-worker.js',
     format: 'iife',
   },
 }, {
