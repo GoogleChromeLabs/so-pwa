@@ -20,14 +20,14 @@ import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 
-// The version of Chromium used by Samsung Internet 6.x.
+// The version of Chromium used by Samsung Internet 10.x.
 const BROWSER_TARGET = {
-  browsers: ['chrome >= 56'],
+  browsers: ['chrome >= 71'],
 };
 
 // The version of node used in Firebase Cloud Functions.
 const NODE_TARGET = {
-  node: '8',
+  node: '10',
 };
 
 export default [{
