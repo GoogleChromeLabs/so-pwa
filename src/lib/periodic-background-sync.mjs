@@ -20,12 +20,14 @@ import {listQuestionsForTag} from './urls.mjs';
 export async function initialize() {
   if ('periodicSync' in self.registration) {
     self.addEventListener('periodicsync', (event) => {
-      event.waitUntil((async () => {
-        const cache = await caches.open(API_CACHE_NAME);
-        const url = listQuestionsForTag(DEFAULT_TAG);
-        await cache.add(url);
-        console.log(`In periodicsync handler, updated`, url);
-      })());
+      if (event.tag === PBS_TAG) {
+        event.waitUntil((async () => {
+          const cache = await caches.open(API_CACHE_NAME);
+          const url = listQuestionsForTag(DEFAULT_TAG);
+          await cache.add(url);
+          console.log(`In periodicsync handler, updated`, url);
+        })());
+      }
     });
 
     const status = await self.navigator.permissions.query({
