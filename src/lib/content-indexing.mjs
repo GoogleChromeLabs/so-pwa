@@ -48,7 +48,7 @@ export async function syncContentIndex(registration) {
       // Use the question_id as the authoritative id value.
       const id = data.question_id;
 
-      if (ids.has(id)) {
+      if (!id || ids.has(id)) {
         ids.delete(id);
       } else {
         await registration.index.add({
