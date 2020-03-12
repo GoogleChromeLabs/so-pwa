@@ -27,6 +27,7 @@ import {API_CACHE_NAME, DEFAULT_TAG} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
 import partials from './lib/partials.mjs';
+import {initialize as pbsInitialize} from './lib/periodic-background-sync.mjs';
 import routeMatchers from './lib/route-matchers.mjs';
 
 precacheAndRoute(self.__WB_MANIFEST);
@@ -46,7 +47,7 @@ registerRoute(
       () => matchPrecache(partials.navbar),
       () => matchPrecache(partials.about),
       () => matchPrecache(partials.foot),
-    ])
+    ]),
 );
 
 registerRoute(
@@ -68,7 +69,7 @@ registerRoute(
         }
       },
       () => matchPrecache(partials.foot),
-    ])
+    ]),
 );
 
 registerRoute(
@@ -90,7 +91,7 @@ registerRoute(
         }
       },
       () => matchPrecache(partials.foot),
-    ])
+    ]),
 );
 
 // Gravatar images support CORS, so we won't be storing opaque responses.
@@ -104,7 +105,7 @@ registerRoute(
           purgeOnQuotaError: true,
         }),
       ],
-    })
+    }),
 );
 
 registerRoute(
@@ -118,8 +119,10 @@ registerRoute(
           purgeOnQuotaError: true,
         }),
       ],
-    })
+    }),
 );
 
 skipWaiting();
 clientsClaim();
+
+pbsInitialize();
