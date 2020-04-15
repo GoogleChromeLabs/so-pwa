@@ -51,9 +51,11 @@ export async function syncContentIndex(registration) {
       if (!id || ids.has(id)) {
         ids.delete(id);
       } else {
+        const url = `/questions/${id}`;
         await registration.index.add({
           id,
-          launchUrl: `/questions/${id}`,
+          url,
+          launchUrl: url,
           category: 'article',
           description: 'A question from Stack Overflow.',
           icons: [{
