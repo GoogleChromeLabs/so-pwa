@@ -17,8 +17,8 @@
 import {string} from 'rollup-plugin-string';
 import babel from 'rollup-plugin-babel';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
-import replace from 'rollup-plugin-replace';
-import resolve from 'rollup-plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
 
 // The version of Chromium used by Samsung Internet 10.x.
 const BROWSER_TARGET = {
