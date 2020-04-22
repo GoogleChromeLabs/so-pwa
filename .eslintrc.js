@@ -18,14 +18,17 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'google',
+    'plugin:jest/all',
   ],
   env: {
-    serviceworker: true,
     browser: true,
-    node: true,
     es6: true,
+    node: true,
+    serviceworker: true,
   },
   globals: {
+    browser: false,
+    page: false,
     workbox: false,
   },
   parserOptions: {
@@ -46,6 +49,7 @@ module.exports = {
     ],
     plugins: [
       'header',
+      'jest',
     ],
     rules: {
       'header/header': [2, 'block', {
