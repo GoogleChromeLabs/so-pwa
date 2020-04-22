@@ -16,11 +16,10 @@
 
 import {API_CACHE_NAME} from './lib/constants.mjs';
 import {syncContentIndex} from './lib/content-indexing.mjs';
-import {unescape} from './lib/escaping.mjs';
 
 window.addEventListener('load', async () => {
   if (self._title) {
-    document.title = unescape(self._title);
+    document.title = self._title;
   }
 
   if ('serviceWorker' in navigator) {

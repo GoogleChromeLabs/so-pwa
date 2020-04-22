@@ -22,6 +22,7 @@ import {clientsClaim, skipWaiting} from 'workbox-core';
 import {ExpirationPlugin} from 'workbox-expiration';
 import {registerRoute} from 'workbox-routing';
 import {strategy as streamsStrategy} from 'workbox-streams';
+import {renderToStream} from '@popeindustries/lit-html-server';
 
 import {API_CACHE_NAME, DEFAULT_TAG, DEFAULT_SORT} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
@@ -63,9 +64,9 @@ registerRoute(
             request: urls.getQuestion(questionId),
           });
           const data = await questionResponse.json();
-          return templates.question(data.items[0]);
+          return renderToStream(templates.question(data.items[0]));
         } catch (error) {
-          return templates.error(error.message);
+          return renderToStream(templates.error(error.message));
         }
       },
       () => matchPrecache(partials.foot),
@@ -86,9 +87,9 @@ registerRoute(
             request: urls.listQuestionsForTag(tag, sort),
           });
           const data = await listResponse.json();
-          return templates.index(tag, data.items, sort);
+          return renderToStream(templates.index(tag, data.items, sort));
         } catch (error) {
-          return templates.error(error.message);
+          return renderToStream(templates.error(error.message));
         }
       },
       () => matchPrecache(partials.foot),

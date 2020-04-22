@@ -20,6 +20,7 @@ import express from 'express';
 import functions from 'firebase-functions';
 import https from 'https';
 import LRU from 'lru-cache';
+import {renderToString} from '@popeindustries/lit-html-server';
 
 // Local ES2105 imports.
 import {DEFAULT_SORT, DEFAULT_TAG} from './lib/constants.mjs';
@@ -80,9 +81,12 @@ app.get(routes.get('questions'), async (req, res) => {
   const questionId = req.params.questionId;
   try {
     const data = await requestData(urls.getQuestion(questionId));
-    res.write(templates.question(data.items[0]));
+    const questionHTML = await renderToString(
+        templates.question(data.items[0]));
+    res.write(questionHTML);
   } catch (error) {
-    res.write(templates.error(error.message));
+    const errorHTML = await renderToString(templates.error(error.message));
+    res.write(errorHTML);
   }
 
   res.write(footPartial);
@@ -96,9 +100,12 @@ app.get(routes.get('index'), async (req, res) => {
     const tag = req.query.tag || DEFAULT_TAG;
     const sort = req.params.sort || DEFAULT_SORT;
     const data = await requestData(urls.listQuestionsForTag(tag, sort));
-    res.write(templates.index(tag, data.items, sort));
+    const indexHTML = await renderToString(
+        templates.index(tag, data.items, sort));
+    res.write(indexHTML);
   } catch (error) {
-    res.write(templates.error(error.message));
+    const errorHTML = await renderToString(templates.error(error.message));
+    res.write(errorHTML);
   }
 
   res.write(footPartial);
