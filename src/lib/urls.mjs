@@ -14,24 +14,38 @@
  * limitations under the License.
  **/
 
-// TODO: Replace with native URL object usage.
-// (This isn't available in node v6, used by Firebase Cloud Functions.)
+import {DEFAULT_SORT} from './constants.mjs';
 
-const PREFIX = `https://api.stackexchange.com/2.2`;
+const PATH = `https://api.stackexchange.com/2.2/questions`;
 
 // As per https://api.stackexchange.com/docs/throttle
 // While this is a read-only, non-secret key, please register your own
 // and replace this value if you fork this project!
 const KEY = `LJ54sdY)tUYvfsHg2kwLvQ((`;
+const SITE = 'stackoverflow';
 
-export function listQuestionsForTag(tag) {
-  return `${PREFIX}/questions?pagesize=100&order=desc&sort=votes&tagged=` +
-    `${encodeURIComponent(tag)}&site=stackoverflow&filter=!C(o*VY))7BGSrm5xK` +
-    `&key=${KEY}`;
+export function listQuestionsForTag(tag, sort) {
+  const url = new URL(PATH);
+
+  url.searchParams.set('filter', '!C(o*VY))7BGSrm5xK');
+  url.searchParams.set('key', KEY);
+  url.searchParams.set('order', 'desc');
+  url.searchParams.set('pagesize', 100);
+  url.searchParams.set('site', SITE);
+  url.searchParams.set('sort', sort);
+  url.searchParams.set('tagged', tag);
+
+  return url.href;
 }
 
 export function getQuestion(questionId) {
-  return `${PREFIX}/questions/${encodeURIComponent(questionId)}?` +
-    `&site=stackoverflow&filter=!oDhDpbIIc)pcGHpmWvn_fa0Hu6PKHizd-W.RnKEVsIq&` +
-    `key=${KEY}`;
+  const url = new URL(PATH);
+  url.pathname += `/${questionId}`;
+
+  url.searchParams.set('filter',
+      '!oDhDpbIIc)pcGHpmWvn_fa0Hu6PKHizd-W.RnKEVsIq');
+  url.searchParams.set('key', KEY);
+  url.searchParams.set('site', SITE);
+
+  return url.href;
 }

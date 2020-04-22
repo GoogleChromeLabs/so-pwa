@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-import {DEFAULT_TAG} from './constants.mjs';
+import {DEFAULT_TAG, SORT_ORDERS} from './constants.mjs';
 import {escape} from './escaping.mjs';
 import {getQuestion} from './urls.mjs';
 
@@ -40,12 +40,13 @@ function questionCard({id, title}) {
              data-cache-url="${getQuestion(id)}">${title}</a>`;
 }
 
-export function index(tag, items) {
+export function index(tag, items, sort) {
   if (!items) {
     return `<p class="error">Unable to list questions for the tag.</p>`;
   }
 
-  const escapedTitle = `Top "${escape(tag)}" Questions`;
+  const escapedTitle = `${sort === SORT_ORDERS.VOTES ? 'Top' : 'Active'}
+    "${escape(tag)}" Questions`;
 
   const title = `<h3>${escapedTitle}</h3>`;
 
@@ -85,18 +86,17 @@ export function question(item) {
     `<div>${item.body}</div>`;
 
   const answers = item.answers ? item.answers
-    .sort((a, b) => a.score < b.score)
-    .map((answer) => {
-      const answererProfile = profile({
-        anchorLink: answer.link,
-        date: formatDate(answer.creation_date),
-        displayName: answer.owner.display_name,
-        imageUrl: answer.owner.profile_image,
-        profileLink: answer.owner.link,
-    });
-
-    return answererProfile + `<div>${answer.body}</div>`;
-  }) : [];
+      .sort((a, b) => a.score < b.score)
+      .map((answer) => {
+        const answererProfile = profile({
+          anchorLink: answer.link,
+          date: formatDate(answer.creation_date),
+          displayName: answer.owner.display_name,
+          imageUrl: answer.owner.profile_image,
+          profileLink: answer.owner.link,
+        });
+        return answererProfile + `<div>${answer.body}</div>`;
+      }) : [];
 
   const metadataScript = `<script>
   self._title = '${escape(item.title)}';

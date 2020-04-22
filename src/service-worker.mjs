@@ -23,7 +23,7 @@ import {ExpirationPlugin} from 'workbox-expiration';
 import {registerRoute} from 'workbox-routing';
 import {strategy as streamsStrategy} from 'workbox-streams';
 
-import {API_CACHE_NAME, DEFAULT_TAG} from './lib/constants.mjs';
+import {API_CACHE_NAME, DEFAULT_TAG, DEFAULT_SORT} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
 import partials from './lib/partials.mjs';
@@ -79,13 +79,14 @@ registerRoute(
       () => matchPrecache(partials.navbar),
       async ({event, url}) => {
         try {
+          const sort = url.searchParams.get('sort') || DEFAULT_SORT;
           const tag = url.searchParams.get('tag') || DEFAULT_TAG;
           const listResponse = await apiStrategy.handle({
             event,
-            request: urls.listQuestionsForTag(tag),
+            request: urls.listQuestionsForTag(tag, sort),
           });
           const data = await listResponse.json();
-          return templates.index(tag, data.items);
+          return templates.index(tag, data.items, sort);
         } catch (error) {
           return templates.error(error.message);
         }

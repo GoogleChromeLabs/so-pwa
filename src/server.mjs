@@ -22,7 +22,7 @@ import https from 'https';
 import LRU from 'lru-cache';
 
 // Local ES2105 imports.
-import {DEFAULT_TAG} from './lib/constants.mjs';
+import {DEFAULT_SORT, DEFAULT_TAG} from './lib/constants.mjs';
 import * as templates from './lib/templates.mjs';
 import * as urls from './lib/urls.mjs';
 import routes from './lib/routes.mjs';
@@ -94,8 +94,9 @@ app.get(routes.get('index'), async (req, res) => {
 
   try {
     const tag = req.query.tag || DEFAULT_TAG;
-    const data = await requestData(urls.listQuestionsForTag(tag));
-    res.write(templates.index(tag, data.items));
+    const sort = req.params.sort || DEFAULT_SORT;
+    const data = await requestData(urls.listQuestionsForTag(tag, sort));
+    res.write(templates.index(tag, data.items, sort));
   } catch (error) {
     res.write(templates.error(error.message));
   }
