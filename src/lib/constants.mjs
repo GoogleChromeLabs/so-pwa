@@ -20,5 +20,5 @@ export const SORT_ORDERS = {
   ACTIVITY: 'activity',
   VOTES: 'votes',
 };
-export const DEFAULT_SORT = SORT_ORDERS.ACTIVITY;
+export const DEFAULT_SORT = SORT_ORDERS.VOTES;
 export const PBS_TAG = 'content-sync';

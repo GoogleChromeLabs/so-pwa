@@ -14,9 +14,11 @@
  * limitations under the License.
  **/
 
+import {escape} from 'html-escaper';
 import {html} from '@popeindustries/lit-html-server';
 import {unsafeHTML} from
   '@popeindustries/lit-html-server/directives/unsafe-html';
+
 
 import {DEFAULT_TAG, SORT_ORDERS} from './constants.mjs';
 import {getQuestion} from './urls.mjs';
@@ -53,8 +55,8 @@ export function index(tag, items, sort) {
     return html`<p class="error">Unable to list questions for the tag.</p>`;
   }
 
-  const titleString = sort === SORT_ORDERS.VOTES ? 'Top' : 'Active' +
-    ` ${tag} Questions`;
+  const titleString = (sort === SORT_ORDERS.VOTES ? 'Top' : 'Active') +
+    ` "${tag}" Questions`;
   const title = html`
     <h3>${titleString}</h3>
   `;
@@ -77,7 +79,7 @@ export function index(tag, items, sort) {
 
   const metadataScript = html`
     <script>
-      self._title = ${JSON.stringify(titleString)};
+      self._title = ${JSON.stringify(escape(titleString))};
     </script>
   `;
 
@@ -127,7 +129,7 @@ export function question(item) {
 
   const metadataScript = html`
     <script>
-      self._title = ${JSON.stringify(item.title)};
+      self._title = ${JSON.stringify(escape(item.title))};
     </script>
   `;
 

@@ -40,6 +40,7 @@ export default [{
     'express',
     'firebase-functions',
     'https',
+    'html-escaper',
     'lru-cache',
   ],
   plugins: [
@@ -66,6 +67,7 @@ export default [{
 
     const chunkNames = [
       'lit-html',
+      'html-escaper',
       'regexparam',
       'workbox',
     ];
@@ -96,6 +98,9 @@ export default [{
 }, {
   input: 'src/app.mjs',
   plugins: [
+    resolve({
+      browser: true,
+    }),
     babel({
       presets: [['@babel/preset-env', {
         targets: BROWSER_TARGET,
