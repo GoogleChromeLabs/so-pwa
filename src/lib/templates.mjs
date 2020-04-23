@@ -14,8 +14,13 @@
  * limitations under the License.
  **/
 
+import {escape} from 'html-escaper';
+import {html} from '@popeindustries/lit-html-server';
+import {unsafeHTML} from
+  '@popeindustries/lit-html-server/directives/unsafe-html';
+
+
 import {DEFAULT_TAG, SORT_ORDERS} from './constants.mjs';
-import {escape} from './escaping.mjs';
 import {getQuestion} from './urls.mjs';
 
 function formatDate(timestamp) {
@@ -23,55 +28,72 @@ function formatDate(timestamp) {
 }
 
 function profile({imageUrl, date, profileLink, displayName, anchorLink}) {
-  return `<div class="profile">
-  <img src="${imageUrl}"
-       title="Profile picture"
-       ${imageUrl && imageUrl.startsWith('https://www.gravatar.com/') ?
-         'crossorigin="anonymous"' : ''}>
-  <a href="${profileLink}">${displayName}</a>
-  at
-  <a href="${anchorLink}">${date}</a>
-</div>`;
+  return html`
+    <div class="profile">
+      <img src="${imageUrl}"
+          title="Profile picture"
+          ?crossorigin=${imageUrl && imageUrl.startsWith('https://www.gravatar.com/')}
+      <a href="${profileLink}">${displayName}</a>
+      at
+      <a href="${anchorLink}">${date}</a>
+    </div>
+  `;
 }
 
 function questionCard({id, title}) {
-  return `<a class="card"
-             href="/questions/${id}"
-             data-cache-url="${getQuestion(id)}">${title}</a>`;
+  return html`
+    <a class="card"
+       href="/questions/${id}"
+       data-cache-url="${getQuestion(id)}">
+       ${title}
+    </a>
+  `;
 }
 
 export function index(tag, items, sort) {
   if (!items) {
-    return `<p class="error">Unable to list questions for the tag.</p>`;
+    return html`<p class="error">Unable to list questions for the tag.</p>`;
   }
 
-  const escapedTitle = `${sort === SORT_ORDERS.VOTES ? 'Top' : 'Active'}
-    "${escape(tag)}" Questions`;
+  const titleString = (sort === SORT_ORDERS.VOTES ? 'Top' : 'Active') +
+    ` "${tag}" Questions`;
+  const title = html`
+    <h3>${titleString}</h3>
+  `;
 
-  const title = `<h3>${escapedTitle}</h3>`;
-
-  const form = `<form method="GET">
-  <label for="tag">Switch to tag:</label>
-  <input type="text" id="tag" name="tag" placeholder="${DEFAULT_TAG}"></input>
-</form>`;
+  const form = html`
+    <form method="GET">
+      <label for="tag">Switch to tag:</label>
+      <input type="text"
+             name="tag"
+             placeholder="${DEFAULT_TAG}"></input>
+    </form>
+  `;
 
   const questionCards = items.map((item) => questionCard({
     id: item.question_id,
     title: item.title,
-  })).join('');
+  }));
 
-  const questions = `<div id="questions">${questionCards}</div>`;
+  const questions = html`<div id="questions">${questionCards}</div>`;
 
-  const metadataScript = `<script>
-  self._title = '${escapedTitle}';
-</script>`;
+  const metadataScript = html`
+    <script>
+      self._title = ${JSON.stringify(escape(titleString))};
+    </script>
+  `;
 
-  return title + form + questions + metadataScript;
+  return html`
+    ${title}
+    ${form}
+    ${questions}
+    ${metadataScript}
+  `;
 }
 
 export function question(item) {
   if (!item) {
-    return `<p class="error">Unable to load question.</p>`;
+    return html`<p class="error">Unable to load question.</p>`;
   }
 
   const ownerProfile = profile({
@@ -82,8 +104,11 @@ export function question(item) {
     profileLink: item.owner.link,
   });
 
-  const question = `<h3>${item.title}</h3>` + ownerProfile +
-    `<div>${item.body}</div>`;
+  const question = html`
+    <h3>${item.title}</h3>
+    ${ownerProfile}
+    <div>${unsafeHTML(item.body)}</div>
+  `;
 
   const answers = item.answers ? item.answers
       .sort((a, b) => a.score < b.score)
@@ -95,18 +120,31 @@ export function question(item) {
           imageUrl: answer.owner.profile_image,
           profileLink: answer.owner.link,
         });
-        return answererProfile + `<div>${answer.body}</div>`;
+
+        return html`
+          ${answererProfile}
+          <div>${unsafeHTML(answer.body)}</div>
+        `;
       }) : [];
 
-  const metadataScript = `<script>
-  self._title = '${escape(item.title)}';
-</script>`;
+  const metadataScript = html`
+    <script>
+      self._title = ${JSON.stringify(escape(item.title))};
+    </script>
+  `;
 
-  return [question, ...answers].join('<hr>') + metadataScript;
+  return html`
+    ${question}
+    <hr>
+    ${answers}
+    ${metadataScript}
+  `;
 }
 
 export function error(message) {
-  return `<p>Sorry, this page couldn't be loaded.</p>
-          <p>Try a cached page instead.</p>
-          <pre>${escape(message)}</pre>`;
+  return html`
+    <p>Sorry, this page couldn't be loaded.</p>
+    <p>Try a cached page instead.</p>
+    <pre>${message}</pre>
+  `;
 }

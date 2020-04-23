@@ -17,6 +17,7 @@
 import {string} from 'rollup-plugin-string';
 import babel from 'rollup-plugin-babel';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
+import OMT from '@surma/rollup-plugin-off-main-thread';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 
@@ -31,12 +32,15 @@ const NODE_TARGET = {
 };
 
 export default [{
-  input: 'src/server.mjs',
+  input: 'src/server.js',
   external: [
+    '@popeindustries/lit-html-server',
+    '@popeindustries/lit-html-server/directives/unsafe-html',
     'axios',
     'express',
     'firebase-functions',
     'https',
+    'html-escaper',
     'lru-cache',
   ],
   plugins: [
@@ -55,28 +59,48 @@ export default [{
     format: 'cjs',
   },
 }, {
-  input: 'src/service-worker.mjs',
+  input: 'src/service-worker.js',
+  manualChunks: (id) => {
+    if (!id.includes('/node_modules/')) {
+      return undefined;
+    }
+
+    const chunkNames = [
+      'lit-html',
+      'html-escaper',
+      'regexparam',
+      'workbox',
+    ];
+
+    return chunkNames.find((chunkName) => id.includes(chunkName)) || 'misc';
+  },
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(
           process.env.NODE_ENV || 'development'),
     }),
-    resolve(),
+    resolve({
+      browser: true,
+    }),
     babel({
       presets: [['@babel/preset-env', {
         targets: BROWSER_TARGET,
         modules: false,
       }]],
     }),
+    OMT(),
     compiler(),
   ],
   output: {
-    file: 'build/service-worker.js',
-    format: 'iife',
+    dir: 'build',
+    format: 'amd',
   },
 }, {
   input: 'src/app.mjs',
   plugins: [
+    resolve({
+      browser: true,
+    }),
     babel({
       presets: [['@babel/preset-env', {
         targets: BROWSER_TARGET,

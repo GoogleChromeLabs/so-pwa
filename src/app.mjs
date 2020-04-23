@@ -14,9 +14,10 @@
  * limitations under the License.
  **/
 
+import {unescape} from 'html-escaper';
+
 import {API_CACHE_NAME} from './lib/constants.mjs';
 import {syncContentIndex} from './lib/content-indexing.mjs';
-import {unescape} from './lib/escaping.mjs';
 
 window.addEventListener('load', async () => {
   if (self._title) {

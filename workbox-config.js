@@ -19,7 +19,8 @@ const path = require('path');
 module.exports = {
   globDirectory: 'build',
   globPatterns: [
-    '**/*.{html,js,svg,png,json}',
+    '**/*.{html,svg,png,json}',
+    'app.js',
   ],
   swSrc: path.join('build', 'service-worker.js'),
   swDest: path.join('build', 'service-worker.js'),
