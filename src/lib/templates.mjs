@@ -53,10 +53,10 @@ export function index(tag, items, sort) {
     return html`<p class="error">Unable to list questions for the tag.</p>`;
   }
 
+  const titleString = sort === SORT_ORDERS.VOTES ? 'Top' : 'Active' +
+    ` ${tag} Questions`;
   const title = html`
-    <h3>
-      ${sort === SORT_ORDERS.VOTES ? 'Top' : 'Active'} ${tag} Questions
-    </h3>
+    <h3>${titleString}</h3>
   `;
 
   const form = html`
@@ -77,7 +77,7 @@ export function index(tag, items, sort) {
 
   const metadataScript = html`
     <script>
-      self._title = ${JSON.stringify(title)};
+      self._title = ${JSON.stringify(titleString)};
     </script>
   `;
 
