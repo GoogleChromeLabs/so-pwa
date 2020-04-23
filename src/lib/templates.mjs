@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-import {escape} from 'html-escaper';
+import {escape, unescape} from 'html-escaper';
 import {html} from '@popeindustries/lit-html-server';
 import {unsafeHTML} from
   '@popeindustries/lit-html-server/directives/unsafe-html';
@@ -72,7 +72,7 @@ export function index(tag, items, sort) {
 
   const questionCards = items.map((item) => questionCard({
     id: item.question_id,
-    title: item.title,
+    title: unescape(item.title),
   }));
 
   const questions = html`<div id="questions">${questionCards}</div>`;
@@ -104,8 +104,10 @@ export function question(item) {
     profileLink: item.owner.link,
   });
 
+  const title = unescape(item.title);
+
   const question = html`
-    <h3>${item.title}</h3>
+    <h3>${title}</h3>
     ${ownerProfile}
     <div>${unsafeHTML(item.body)}</div>
   `;
@@ -129,7 +131,7 @@ export function question(item) {
 
   const metadataScript = html`
     <script>
-      self._title = ${JSON.stringify(escape(item.title))};
+      self._title = ${JSON.stringify(escape(title))};
     </script>
   `;
 
