@@ -17,8 +17,6 @@
 import {string} from 'rollup-plugin-string';
 import babel from 'rollup-plugin-babel';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
-import nodeBuiltins from 'rollup-plugin-node-builtins';
-import nodeGlobals from 'rollup-plugin-node-globals';
 import OMT from '@surma/rollup-plugin-off-main-thread';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
@@ -72,17 +70,15 @@ export default [{
       'workbox',
     ];
 
-    return chunkNames.find((chunkName) => id.includes(chunkName)) || 'polyfills';
+    return chunkNames.find((chunkName) => id.includes(chunkName)) || 'misc';
   },
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(
           process.env.NODE_ENV || 'development'),
     }),
-    nodeGlobals(),
-    nodeBuiltins(),
     resolve({
-      preferBuiltins: true,
+      browser: true,
     }),
     babel({
       presets: [['@babel/preset-env', {
