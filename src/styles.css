@@ -108,6 +108,7 @@ img {
 .profile > img {
   --size: 32px;
   height: var(--size);
+  margin-right: calc(var(--size) / 4);
   vertical-align: middle;
   width: var(--size);
 }
