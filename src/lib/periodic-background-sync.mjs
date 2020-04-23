@@ -14,7 +14,8 @@
  * limitations under the License.
  **/
 
-import {API_CACHE_NAME, DEFAULT_TAG, PBS_TAG} from './constants.mjs';
+import {API_CACHE_NAME, DEFAULT_SORT, DEFAULT_TAG, PBS_TAG}
+  from './constants.mjs';
 import {listQuestionsForTag} from './urls.mjs';
 
 export async function initialize() {
@@ -23,7 +24,7 @@ export async function initialize() {
       if (event.tag === PBS_TAG) {
         event.waitUntil((async () => {
           const cache = await caches.open(API_CACHE_NAME);
-          const url = listQuestionsForTag(DEFAULT_TAG);
+          const url = listQuestionsForTag(DEFAULT_TAG, DEFAULT_SORT);
           await cache.add(url);
           console.log(`In periodicsync handler, updated`, url);
         })());
