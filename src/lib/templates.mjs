@@ -31,7 +31,7 @@ function profile({imageUrl, date, profileLink, displayName, anchorLink}) {
   return html`
     <div class="profile">
       <img src="${imageUrl}"
-          title="Profile picture"
+          alt="Profile picture"
           ?crossorigin=${imageUrl && imageUrl.startsWith('https://www.gravatar.com/')}
       <a href="${profileLink}">${displayName}</a>
       at
