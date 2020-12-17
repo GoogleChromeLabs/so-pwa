@@ -59,7 +59,7 @@ export default [{
     format: 'cjs',
   },
 }, {
-  input: 'src/service-worker.js',
+  input: 'src/service-worker.mjs',
   manualChunks: (id) => {
     if (!id.includes('/node_modules/')) {
       return undefined;

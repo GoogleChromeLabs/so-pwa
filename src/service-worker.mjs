@@ -98,7 +98,7 @@ registerRoute(
 
 // Gravatar images support CORS, so we won't be storing opaque responses.
 registerRoute(
-    new RegExp('https://www\\.gravatar\\.com/'),
+    ({url}) => url.origin === 'https://www.gravatar.com',
     new CacheFirst({
       cacheName: 'profile-images',
       plugins: [
@@ -111,7 +111,7 @@ registerRoute(
 );
 
 registerRoute(
-    new RegExp('^https://.*(?:\\.jpg|\\.png)'),
+    ({request}) => request.destination === 'image',
     new CacheFirst({
       cacheName: 'other-images',
       plugins: [
