@@ -18,7 +18,7 @@ import {CacheableResponsePlugin} from 'workbox-cacheable-response';
 import {CacheFirst, StaleWhileRevalidate} from 'workbox-strategies';
 import {cleanupOutdatedCaches, matchPrecache, precacheAndRoute}
   from 'workbox-precaching';
-import {clientsClaim, skipWaiting} from 'workbox-core';
+import {clientsClaim} from 'workbox-core';
 import {ExpirationPlugin} from 'workbox-expiration';
 import {registerRoute} from 'workbox-routing';
 import {strategy as streamsStrategy} from 'workbox-streams';
@@ -124,7 +124,7 @@ registerRoute(
     }),
 );
 
-skipWaiting();
+self.skipWaiting();
 clientsClaim();
 
 pbsInitialize();
