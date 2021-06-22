@@ -28,7 +28,7 @@ const BROWSER_TARGET = {
 
 // The version of node used in Firebase Cloud Functions.
 const NODE_TARGET = {
-  node: '12',
+  node: '14',
 };
 
 export default [{
