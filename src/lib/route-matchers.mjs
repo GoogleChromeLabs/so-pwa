@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-import regexparam from 'regexparam';
+import {parse} from 'regexparam';
 
 import routes from './routes.mjs';
 
@@ -25,7 +25,7 @@ for (const [routeName, expressRoute] of routes) {
   // search params) when doing RegExp matching. To work around this,
   // we'll create our own functions that implement the matchCallback interface:
   // https://developers.google.com/web/tools/workbox/reference-docs/latest/workbox.routing.Route#~matchCallback
-  const regExp = regexparam(expressRoute).pattern;
+  const regExp = parse(expressRoute).pattern;
   const matcher = ({url}) => regExp.exec(url.pathname);
   routeMatchers.set(routeName, matcher);
 }

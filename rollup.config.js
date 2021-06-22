@@ -76,6 +76,7 @@ export default [{
   },
   plugins: [
     replace({
+      'preventAssignment': true,
       'process.env.NODE_ENV': JSON.stringify(
           process.env.NODE_ENV || 'development'),
     }),
@@ -88,7 +89,7 @@ export default [{
         modules: false,
       }]],
     }),
-    OMT(),
+    OMT(), // eslint-disable-line new-cap
     compiler(),
   ],
   output: {

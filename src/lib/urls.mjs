@@ -14,8 +14,6 @@
  * limitations under the License.
  **/
 
-import {DEFAULT_SORT} from './constants.mjs';
-
 const PATH = `https://api.stackexchange.com/2.2/questions`;
 
 // As per https://api.stackexchange.com/docs/throttle

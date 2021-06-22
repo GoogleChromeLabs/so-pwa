@@ -30,6 +30,7 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 2017,
+    sourceType: 'module',
   },
   rules: {
     'require-jsdoc': 0,
@@ -51,6 +52,6 @@ module.exports = {
       'header/header': [2, 'block', {
         pattern: 'Copyright \\d{4} Google Inc.',
       }],
-    }
+    },
   }],
 };
