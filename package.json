@@ -52,13 +52,13 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-string": "^3.0.0",
     "shx": "^0.3.3",
-    "workbox-cacheable-response": "^6.1.5",
-    "workbox-cli": "^6.1.5",
-    "workbox-core": "^6.1.5",
-    "workbox-expiration": "^6.1.5",
-    "workbox-precaching": "^6.1.5",
-    "workbox-routing": "^6.1.5",
-    "workbox-strategies": "^6.1.5",
-    "workbox-streams": "^6.1.5"
+    "workbox-cacheable-response": "^6.2.0-alpha.1",
+    "workbox-cli": "^6.2.0-alpha.1",
+    "workbox-core": "^6.2.0-alpha.1",
+    "workbox-expiration": "^6.2.0-alpha.1",
+    "workbox-precaching": "^6.2.0-alpha.1",
+    "workbox-routing": "^6.2.0-alpha.1",
+    "workbox-strategies": "^6.2.0-alpha.1",
+    "workbox-streams": "^6.2.0-alpha.1"
   }
 }
