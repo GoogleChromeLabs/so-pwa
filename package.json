@@ -43,7 +43,7 @@
     "firebase-tools": "^9.14.0",
     "html-escaper": "^3.0.3",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.3.5",
+    "postcss": "^8.4.31",
     "postcss-cli": "^8.3.1",
     "postcss-css-variables": "^0.18.0",
     "regex-replace": "^2.3.1",
