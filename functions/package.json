@@ -12,7 +12,7 @@
     "@popeindustries/lit-html-server": "^3.1.0",
     "axios": "^0.21.1",
     "express": "^4.17.1",
-    "firebase-admin": "^9.9.0",
+    "firebase-admin": "^11.11.1",
     "firebase-functions": "^3.14.1",
     "html-escaper": "^3.0.3",
     "lru-cache": "^6.0.0"
