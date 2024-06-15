@@ -53,7 +53,7 @@
     "rollup-plugin-string": "^3.0.0",
     "shx": "^0.3.3",
     "workbox-cacheable-response": "^6.1.5",
-    "workbox-cli": "^6.1.5",
+    "workbox-cli": "^6.6.0",
     "workbox-core": "^6.1.5",
     "workbox-expiration": "^6.1.5",
     "workbox-precaching": "^6.1.5",
