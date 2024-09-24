@@ -48,7 +48,7 @@
     "postcss-css-variables": "^0.18.0",
     "regex-replace": "^2.3.1",
     "regexparam": "^2.0.0",
-    "rollup": "^2.52.2",
+    "rollup": "^3.29.5",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-string": "^3.0.0",
     "shx": "^0.3.3",
